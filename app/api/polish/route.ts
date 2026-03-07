@@ -11,7 +11,7 @@ export async function POST(request: Request) {
         'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'llama3-70b-8192',
         max_tokens: 1000,
         messages: [
           {
@@ -27,9 +27,17 @@ export async function POST(request: Request) {
     });
 
     const data = await response.json();
+    console.log('Groq response:', JSON.stringify(data));
+
+    if (!response.ok) {
+      console.error('Groq error:', data);
+      return NextResponse.json({ error: data.error?.message || 'Groq API error' }, { status: 500 });
+    }
+
     const polished = data.choices[0].message.content;
     return NextResponse.json({ polished });
   } catch (error) {
+    console.error('Polish error:', error);
     return NextResponse.json({ error: 'Failed to polish' }, { status: 500 });
   }
 }
