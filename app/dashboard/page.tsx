@@ -48,23 +48,33 @@ export default function Dashboard() {
     setTestimonials(prev => prev.map(t => t.id === id ? { ...t, approved: !approved } : t));
   };
 
-  const handlePolish = async (id: string, content: string) => {
-    setPolishing(id);
-    try {
-      const res = await fetch('/api/polish', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content }),
-      });
-      const data = await res.json();
-      if (data.polished) {
-        await supabase.from('testimonials').update({ polished_content: data.polished }).eq('id', id);
-        setTestimonials(prev => prev.map(t => t.id === id ? { ...t, polished_content: data.polished } : t));
-      }
-    } finally {
-      setPolishing(null);
+ const handlePolish = async (id: string, content: string, clientEmail: string, clientName: string) => {
+  setPolishing(id);
+  try {
+    const res = await fetch('/api/polish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        content, 
+        testimonialId: id,
+        clientEmail,
+        clientName
+      }),
+    });
+    const data = await res.json();
+    if (data.polished) {
+      setTestimonials(prev => prev.map(t => 
+        t.id === id ? { 
+          ...t, 
+          polished_content: data.polished,
+          approval_status: data.awaitingApproval ? 'pending_approval' : 'approved'
+        } : t
+      ));
     }
-  };
+  } finally {
+    setPolishing(null);
+  }
+};
 
   const handleDelete = async (id: string) => {
     await supabase.from('testimonials').delete().eq('id', id);
@@ -87,7 +97,13 @@ export default function Dashboard() {
         <span className="text-lg font-bold tracking-tight">Proveify</span>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">{user?.email}</span>
-          <button onClick={handleSignOut} className="text-sm text-gray-500 hover:text-gray-900">Sign out</button>
+         <button
+  onClick={() => handlePolish(t.id, t.content, t.client_email, t.client_name)}
+  disabled={polishing === t.id}
+  className="text-xs px-3 py-1.5 rounded-lg font-medium bg-indigo-100 text-indigo-600 hover:bg-indigo-200 disabled:opacity-50"
+>
+  {polishing === t.id ? 'Polishing...' : '✨ AI Polish'}
+</button>
         </div>
       </nav>
 
@@ -186,9 +202,17 @@ export default function Dashboard() {
                         <div className="flex gap-0.5 ml-2">
                           {[...Array(t.rating)].map((_, i) => <span key={i} className="text-yellow-400 text-xs">★</span>)}
                         </div>
-                        <span className={`ml-auto text-xs px-2 py-1 rounded-full font-medium ${t.approved ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'}`}>
-                          {t.approved ? 'Approved' : 'Pending'}
-                        </span>
+                        <span className={`ml-auto text-xs px-2 py-1 rounded-full font-medium ${
+  t.approval_status === 'approved' ? 'bg-green-100 text-green-600' : 
+  t.approval_status === 'pending_approval' ? 'bg-yellow-100 text-yellow-600' :
+  t.approval_status === 'rejected' ? 'bg-gray-100 text-gray-500' :
+  'bg-gray-100 text-gray-500'
+}`}>
+  {t.approval_status === 'approved' ? '✓ Approved' : 
+   t.approval_status === 'pending_approval' ? '⏳ Awaiting approval' :
+   t.approval_status === 'rejected' ? 'Original kept' :
+   'Pending'}
+</span>
                       </div>
 
                       {/* Original */}
