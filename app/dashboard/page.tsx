@@ -118,6 +118,25 @@ export default function Dashboard() {
           </div>
         </div>
 
+{/* Embed code */}
+<div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 mb-10">
+  <h2 className="font-semibold text-gray-900 mb-1">Embed your wall of love</h2>
+  <p className="text-sm text-gray-500 mb-4">Paste this into any website — Webflow, WordPress, Framer, Carrd. Works anywhere.</p>
+  <div className="flex gap-3 items-center">
+    <input
+      readOnly
+      value={`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`}
+      className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-2 text-xs text-gray-600 focus:outline-none font-mono"
+    />
+    <button
+      onClick={() => navigator.clipboard.writeText(`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`)}
+      className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 whitespace-nowrap"
+    >
+      Copy code
+    </button>
+  </div>
+</div>
+        
         {/* Stats */}
         <div className="grid grid-cols-3 gap-6 mb-10">
           {[
