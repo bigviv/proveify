@@ -1,10 +1,21 @@
 import { NextResponse } from 'next/server';
+import { Resend } from 'resend';
+import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export async function POST(request: Request) {
   try {
-    const { content } = await request.json();
+    const { content, testimonialId, clientEmail, clientName } = await request.json();
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    // Step 1 — Polish with Groq
+    const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,16 +37,73 @@ export async function POST(request: Request) {
       }),
     });
 
-    const data = await response.json();
-    console.log('Groq response:', JSON.stringify(data));
+    const groqData = await groqResponse.json();
 
-    if (!response.ok) {
-      console.error('Groq error:', data);
-      return NextResponse.json({ error: data.error?.message || 'Groq API error' }, { status: 500 });
+    if (!groqResponse.ok) {
+      console.error('Groq error:', groqData);
+      return NextResponse.json({ error: 'Failed to polish' }, { status: 500 });
     }
 
-    const polished = data.choices[0].message.content;
-    return NextResponse.json({ polished });
+    const polished = groqData.choices[0].message.content;
+
+    // Step 2 — Generate approval token
+    const token = crypto.randomUUID();
+
+    // Step 3 — Save polished version with pending_approval status
+    await supabase
+      .from('testimonials')
+      .update({
+        polished_content: polished,
+        approval_token: token,
+        approval_status: 'pending_approval',
+        approved: false,
+      })
+      .eq('id', testimonialId);
+
+    // Step 4 — Email client for approval (if we have their email)
+    if (clientEmail) {
+      const approveUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/approve?token=${token}&action=approve`;
+      const rejectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/approve?token=${token}&action=reject`;
+
+      await resend.emails.send({
+        from: 'Proveify <onboarding@resend.dev>',
+        to: [clientEmail],
+        subject: 'Does this capture your experience?',
+        html: `
+          <div style="font-family: sans-serif; max-width: 520px; margin: 0 auto; padding: 40px 20px;">
+            <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 8px;">Hi ${clientName || 'there'} 👋</h2>
+            <p style="color: #555; font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
+              We've tidied up your testimonial to make it shine. Does this accurately capture your experience?
+            </p>
+            
+            <div style="background: #f5f3ff; border-left: 4px solid #6d28d9; padding: 16px 20px; border-radius: 8px; margin-bottom: 32px;">
+              <p style="margin: 0; color: #374151; font-size: 15px; line-height: 1.6; font-style: italic;">"${polished}"</p>
+            </div>
+
+            <p style="color: #555; font-size: 14px; margin-bottom: 24px;">
+              If this captures your experience accurately, click approve below. If not, click reject and we'll use your original words instead.
+            </p>
+
+            <div style="display: flex; gap: 12px; margin-bottom: 32px;">
+              <a href="${approveUrl}" style="background: #6d28d9; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+                ✓ Yes, approve this
+              </a>
+              <a href="${rejectUrl}" style="background: #f3f4f6; color: #374151; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;">
+                ✗ No, use my original
+              </a>
+            </div>
+
+            <p style="color: #aaa; font-size: 12px;">Powered by Proveify · proveify.vercel.app</p>
+          </div>
+        `,
+      });
+    }
+
+    return NextResponse.json({ 
+      polished,
+      awaitingApproval: !!clientEmail 
+    });
+
   } catch (error) {
     console.error('Polish error:', error);
     return NextResponse.json({ error: 'Failed to polish' }, { status: 500 });
