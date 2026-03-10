@@ -6,11 +6,13 @@ import { useRouter } from 'next/navigation';
 type Testimonial = {
   id: string;
   client_name: string;
+  client_email: string;
   client_role: string;
   content: string;
   polished_content: string | null;
   rating: number;
   approved: boolean;
+  approval_status: string;
   created_at: string;
 };
 
