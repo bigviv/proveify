@@ -206,11 +206,13 @@ export default function Dashboard() {
                         <span className={`ml-auto text-xs px-2 py-1 rounded-full font-medium ${
                           t.approval_status === 'approved' ? 'bg-green-100 text-green-600' :
                           t.approval_status === 'pending_approval' ? 'bg-yellow-100 text-yellow-600' :
+                          t.approval_status === 'low_rating' ? 'bg-red-50 text-red-500' :
                           'bg-gray-100 text-gray-500'
                         }`}>
                           {t.approval_status === 'approved' ? '✓ Approved' :
                            t.approval_status === 'pending_approval' ? '⏳ Awaiting approval' :
                            t.approval_status === 'rejected' ? 'Original kept' :
+                           t.approval_status === 'low_rating' ? '⚠️ Needs attention' :
                            'Pending'}
                         </span>
                       </div>
@@ -232,19 +234,26 @@ export default function Dashboard() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-3 mt-4 pt-4 border-t border-gray-50">
+                  <div className="flex gap-3 mt-4 pt-4 border-t border-gray-50 items-center">
                     <button
                       onClick={() => handleApprove(t.id, t.approved)}
                       className={`text-xs px-3 py-1.5 rounded-lg font-medium ${t.approved ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-green-100 text-green-600 hover:bg-green-200'}`}
                     >
                       {t.approved ? 'Unapprove' : 'Approve'}
                     </button>
-                    <button
-                      onClick={() => handleDelete(t.id)}
-                      className="text-xs px-3 py-1.5 rounded-lg font-medium bg-red-50 text-red-500 hover:bg-red-100 ml-auto"
-                    >
-                      Delete
-                    </button>
+                    {t.approval_status === 'low_rating' && (
+                      <span className="text-xs bg-red-50 text-red-500 px-3 py-1.5 rounded-lg font-medium">
+                        ⚠️ Low rating — reach out before publishing
+                      </span>
+                    )}
+                    <div className="ml-auto">
+                      <button
+                        onClick={() => handleDelete(t.id)}
+                        className="text-xs px-3 py-1.5 rounded-lg font-medium bg-red-50 text-red-500 hover:bg-red-100"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
