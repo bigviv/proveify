@@ -72,14 +72,12 @@ export default function Home() {
               <p className="text-sm font-semibold text-gray-800">Meera R.</p>
               <p className="text-xs text-gray-400">Freelance Designer</p>
             </div>
-            <a href="https://proveify.vercel.app" className="text-xs text-gray-300 hover:text-indigo-400 font-medium">
-              Verified by Proveify ↗
-            </a>
+            <span className="text-xs text-gray-300 font-medium">Verified by Proveify ↗</span>
           </div>
         </div>
       </section>
 
-      {/* How it works + mockups */}
+      {/* How it works */}
       <section id="how-it-works" className="bg-gray-50 py-20">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-14">
@@ -87,7 +85,7 @@ export default function Home() {
             <p className="text-gray-500">Four steps. Under five minutes to set up.</p>
           </div>
 
-          {/* Step 1 — Collection form mockup */}
+          {/* Step 1 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center mb-20">
             <div>
               <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">1</div>
@@ -95,7 +93,6 @@ export default function Home() {
               <p className="text-gray-500 leading-relaxed mb-3">Share a unique link by email, WhatsApp, or anywhere. Clients answer three quick questions — what problem you solved, what result they saw, and whether they'd recommend you.</p>
               <p className="text-sm text-indigo-600 font-medium">Takes clients less than 2 minutes.</p>
             </div>
-            {/* Form mockup */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
@@ -132,9 +129,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Step 2 — AI polish mockup */}
+          {/* Step 2 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center mb-20">
-            {/* Before/after mockup */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 order-2 sm:order-1">
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
@@ -150,7 +146,7 @@ export default function Home() {
               </div>
               <div className="flex items-center justify-center my-3">
                 <div className="flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1.5 rounded-full">
-                  <span className="animate-pulse">✨</span> AI polishing...
+                  <span>✨</span> AI polishing...
                 </div>
               </div>
               <div>
@@ -172,15 +168,14 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Step 3 — Dashboard mockup */}
+          {/* Step 3 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center mb-20">
             <div>
               <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">3</div>
               <h3 className="text-xl font-black mb-3">Manage everything from your dashboard</h3>
-              <p className="text-gray-500 leading-relaxed mb-3">See every testimonial, original and polished side by side. Approve, unapprove, or delete. Low-rated reviews are flagged automatically so you never accidentally publish a complaint.</p>
+              <p className="text-gray-500 leading-relaxed mb-3">See every testimonial, original and polished side by side. Low-rated reviews are flagged automatically so you never accidentally publish a complaint.</p>
               <p className="text-sm text-indigo-600 font-medium">Full control. Zero chaos.</p>
             </div>
-            {/* Dashboard mockup */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
@@ -189,7 +184,7 @@ export default function Home() {
                 <span className="text-xs text-gray-400 ml-2">Dashboard</span>
               </div>
               <div className="grid grid-cols-3 gap-2 mb-4">
-                {[['4', 'Total'], ['3', 'Approved'], ['3', 'Polished']].map(([n, l]) => (
+                {[['4','Total'],['3','Approved'],['3','Polished']].map(([n,l]) => (
                   <div key={l} className="bg-gray-50 rounded-xl p-2 text-center">
                     <p className="text-lg font-black text-indigo-600">{n}</p>
                     <p className="text-xs text-gray-400">{l}</p>
@@ -198,9 +193,9 @@ export default function Home() {
               </div>
               <div className="space-y-2">
                 {[
-                  { name: 'Sarah J.', stars: 5, text: 'Alex delivered exactly what we needed...', badge: '✓ Approved', badgeColor: 'bg-green-100 text-green-600' },
-                  { name: 'David C.', stars: 5, text: 'The fastest developer I have worked with...', badge: '✓ Approved', badgeColor: 'bg-green-100 text-green-600' },
-                  { name: 'Peter M.', stars: 3, text: 'Good tiling but had an issue...', badge: '⚠️ Needs attention', badgeColor: 'bg-red-50 text-red-500' },
+                  { name: 'Sarah J.', stars: 5, text: 'Alex delivered exactly what we needed...', badge: '✓ Approved', color: 'bg-green-100 text-green-600' },
+                  { name: 'David C.', stars: 5, text: 'The fastest developer I have worked with...', badge: '✓ Approved', color: 'bg-green-100 text-green-600' },
+                  { name: 'Peter M.', stars: 3, text: 'Good tiling but had an issue...', badge: '⚠️ Needs attention', color: 'bg-red-50 text-red-500' },
                 ].map((t) => (
                   <div key={t.name} className="bg-gray-50 rounded-xl p-3 flex items-center gap-3">
                     <div className="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600 shrink-0">
@@ -215,16 +210,15 @@ export default function Home() {
                       </div>
                       <p className="text-xs text-gray-400 truncate">{t.text}</p>
                     </div>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 ${t.badgeColor}`}>{t.badge}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 ${t.color}`}>{t.badge}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Step 4 — Widget mockup */}
+          {/* Step 4 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center">
-            {/* Widget mockup */}
             <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 order-2 sm:order-1">
               <div className="flex items-center gap-2 mb-5">
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
@@ -247,7 +241,7 @@ export default function Home() {
                       <p className="text-xs font-semibold">{t.name}</p>
                       <p className="text-xs text-gray-400">{t.role}</p>
                     </div>
-                    <p className="text-xs text-gray-300 mt-2 pt-2 border-t border-gray-100">✓ Enhanced by Proveify AI · Approved by {t.name.split(' ')[0]}</p>
+                    <p className="text-xs text-gray-300 mt-2 pt-2 border-t border-gray-100">✓ Verified by Proveify</p>
                   </div>
                 ))}
               </div>
@@ -255,9 +249,9 @@ export default function Home() {
             <div className="order-1 sm:order-2">
               <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">4</div>
               <h3 className="text-xl font-black mb-3">Embed anywhere with one line of code</h3>
-              <p className="text-gray-500 leading-relaxed mb-4">Paste one line of code and your testimonial wall appears on any website. Works everywhere.</p>
+              <p className="text-gray-500 leading-relaxed mb-4">Paste one line of code and your testimonial wall appears on any website.</p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {['Webflow', 'WordPress', 'Framer', 'Carrd', 'Notion', 'Squarespace'].map(p => (
+                {['Webflow','WordPress','Framer','Carrd','Notion','Squarespace'].map(p => (
                   <span key={p} className="bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-lg">{p}</span>
                 ))}
               </div>
@@ -285,64 +279,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Real testimonials — human sounding */}
-      <section className="bg-gray-50 py-20">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-black mb-3">What freelancers say</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {[
-              { name: 'Meera R.', role: 'Freelance Designer', text: 'Clients always said nice things after projects but I never used them anywhere. Proveify turned those into testimonials I could actually put on my site.' },
-              { name: 'Tom B.', role: 'Web Developer', text: "I'd been meaning to collect testimonials for two years. Set up Proveify in ten minutes and had three testimonials on my site by the end of the day." },
-              { name: 'Ananya S.', role: 'Brand Consultant', text: "The AI doesn't make stuff up — it just makes what clients wrote actually readable. My clients loved seeing the polished version." },
-            ].map((t) => (
-              <div key={t.name} className="bg-white rounded-2xl border border-gray-100 p-6">
-                <p className="text-gray-700 text-sm leading-relaxed mb-4">"{t.text}"</p>
-                <div>
-                  <p className="text-sm font-semibold">{t.name}</p>
-                  <p className="text-xs text-gray-400">{t.role}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-        {/* Where testimonials appear */}
-        <div className="bg-gray-50 rounded-2xl border border-gray-100 p-8">
-          <h3 className="font-black text-lg mb-2 text-center">One testimonial. Ten places it can live.</h3>
-          <p className="text-gray-500 text-sm text-center mb-6">Every approved testimonial can become content across your entire marketing.</p>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            {['Website', 'Portfolio', 'LinkedIn', 'Case studies', 'Pitch decks', 'Email', 'Proposals', 'Notion', 'Instagram', 'Cold outreach'].map(p => (
-              <div key={p} className="bg-white border border-gray-200 text-gray-600 text-xs font-medium px-3 py-2 rounded-lg text-center">{p}</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Founder story */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-2xl mx-auto px-6">
-          <div className="bg-white rounded-2xl border border-gray-100 p-10">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Why Proveify exists</p>
-            <h2 className="text-2xl font-black mb-5">I got tired of watching great freelancers lose work they deserved.</h2>
-            <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
-              <p>Clients were happy. Projects went well. But when it came to testimonials, everyone went quiet. Not because they didn't want to help — but because writing a review felt like work.</p>
-              <p>So freelancers kept winning jobs without any proof they were worth hiring. New clients had to take the risk. Some did. Many didn't.</p>
-              <p>I built Proveify to fix that. Send clients a link. They answer three quick questions. AI turns their answers into a real testimonial. They approve it. Done.</p>
-              <p>No awkward follow-ups. No copywriting. No blank page anxiety for the client.</p>
-            </div>
-            <div className="mt-6 pt-6 border-t border-gray-100">
-              <p className="text-sm font-semibold">Vivek</p>
-              <p className="text-xs text-gray-400">Founder, Proveify</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Pricing */}
-      <section id="pricing" className="py-20">
+      <section id="pricing" className="bg-gray-50 py-20">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-black mb-3">Simple pricing</h2>
@@ -354,7 +292,7 @@ export default function Home() {
                 name: 'Free',
                 price: '$0',
                 desc: 'For freelancers just getting started',
-                features: ['1 collection page', 'Up to 5 testimonials', 'Basic embed widget', 'No credit card needed'],
+                features: ['1 collection page','Up to 5 testimonials','Basic embed widget','No credit card needed'],
                 cta: 'Start free',
                 highlight: false,
               },
@@ -362,7 +300,7 @@ export default function Home() {
                 name: 'Pro',
                 price: '$19',
                 desc: 'For growing consultants and creators',
-                features: ['Unlimited testimonials', 'AI Polish feature', 'Client approval flow', 'Custom branding', 'Priority support'],
+                features: ['Unlimited testimonials','AI Polish feature','Client approval flow','Custom branding','Priority support'],
                 cta: 'Upgrade to Pro',
                 highlight: true,
               },
@@ -370,7 +308,7 @@ export default function Home() {
                 name: 'Agency',
                 price: '$49',
                 desc: 'For teams and client work',
-                features: ['Everything in Pro', 'Multiple workspaces', 'White-label widget', 'Client management', 'Team access'],
+                features: ['Everything in Pro','Multiple workspaces','White-label widget','Client management','Team access'],
                 cta: 'Upgrade to Agency',
                 highlight: false,
               },
@@ -420,7 +358,61 @@ export default function Home() {
             </div>
           ))}
         </div>
-  
+        <div className="bg-gray-50 rounded-2xl border border-gray-100 p-8">
+          <h3 className="font-black text-lg mb-2 text-center">One testimonial. Ten places it can live.</h3>
+          <p className="text-gray-500 text-sm text-center mb-6">Every approved testimonial can become content across your entire marketing.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            {['Website','Portfolio','LinkedIn','Case studies','Pitch decks','Email','Proposals','Notion','Instagram','Cold outreach'].map(p => (
+              <div key={p} className="bg-white border border-gray-200 text-gray-600 text-xs font-medium px-3 py-2 rounded-lg text-center">{p}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* What freelancers say */}
+      <section className="bg-gray-50 py-20">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-black mb-3">What freelancers say</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {[
+              { name: 'Meera R.', role: 'Freelance Designer', text: 'Clients always said nice things after projects but I never used them anywhere. Proveify turned those into testimonials I could actually put on my site.' },
+              { name: 'Tom B.', role: 'Web Developer', text: "I'd been meaning to collect testimonials for two years. Set up Proveify in ten minutes and had three testimonials on my site by the end of the day." },
+              { name: 'Ananya S.', role: 'Brand Consultant', text: "The AI doesn't make stuff up — it just makes what clients wrote actually readable. My clients loved seeing the polished version." },
+            ].map((t) => (
+              <div key={t.name} className="bg-white rounded-2xl border border-gray-100 p-6">
+                <p className="text-gray-700 text-sm leading-relaxed mb-4">"{t.text}"</p>
+                <div>
+                  <p className="text-sm font-semibold">{t.name}</p>
+                  <p className="text-xs text-gray-400">{t.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Founder story */}
+      <section className="py-20">
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="bg-white rounded-2xl border border-gray-100 p-10">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Why Proveify exists</p>
+            <h2 className="text-2xl font-black mb-5">I got tired of watching great freelancers lose work they deserved.</h2>
+            <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
+              <p>Clients were happy. Projects went well. But when it came to testimonials, everyone went quiet. Not because they didn't want to help — but because writing a review felt like work.</p>
+              <p>So freelancers kept winning jobs without any proof they were worth hiring. New clients had to take the risk. Some did. Many didn't.</p>
+              <p>I built Proveify to fix that. Send clients a link. They answer three quick questions. AI turns their answers into a real testimonial. They approve it. Done.</p>
+              <p>No awkward follow-ups. No copywriting. No blank page anxiety for the client.</p>
+            </div>
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <p className="text-sm font-semibold">Vivek</p>
+              <p className="text-xs text-gray-400">Founder, Proveify</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section id="waitlist" className="bg-indigo-600 py-20">
         <div className="max-w-2xl mx-auto px-6 text-center">
