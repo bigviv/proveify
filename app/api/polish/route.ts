@@ -12,7 +12,7 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const { content, testimonialId, clientEmail, clientName } = await request.json();
+    const { content, testimonialId, clientEmail, clientName, skipEmail } = await request.json();
 
     // Step 1 — Polish with Groq
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
       .eq('id', testimonialId);
 
     // Step 4 — Email client for approval (if we have their email)
-    if (clientEmail) {
+    if (clientEmail && !skipEmail) {
       const approveUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/approve?token=${token}&action=approve`;
       const rejectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/approve?token=${token}&action=reject`;
 
