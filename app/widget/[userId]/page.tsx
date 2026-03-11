@@ -55,11 +55,15 @@ export default function WidgetPage({ params }: { params: Promise<{ userId: strin
                   {t.client_role && <p className="text-xs text-gray-400">{t.client_role}</p>}
                 </div>
               </div>
-              {t.polished_content && t.approved_at && (
-                <p className="text-xs text-gray-300 mt-3 pt-3 border-t border-gray-50">
-                  ✓ Enhanced for clarity by Proveify AI · Approved by {t.client_name}
+              <div className="mt-3 pt-3 border-t border-gray-50 flex items-center justify-between">
+                <p className="text-xs text-gray-300">
+                  {t.polished_content && t.approved_at ? `✓ Approved by ${t.client_name}` : ''}
                 </p>
-              )}
+                <a href="https://proveify.vercel.app" target="_blank" rel="noopener noreferrer"
+                  className="text-xs text-gray-300 hover:text-indigo-400 transition-colors font-medium">
+                  Verified by Proveify ↗
+                </a>
+              </div>
             </div>
           );
         })}
