@@ -12,7 +12,7 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const { content, testimonialId, clientEmail, clientName, skipEmail } = await request.json();
+    const { content, testimonialId, clientEmail, clientName, skipEmail, tone } = await request.json();
 
     // Step 1 — Polish with Groq
     const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
