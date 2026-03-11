@@ -27,12 +27,13 @@ export async function GET(request: Request) {
 
   if (action === 'approve') {
     await supabase
-      .from('testimonials')
-      .update({ 
-        approved: true, 
-        approval_status: 'approved' 
-      })
-      .eq('approval_token', token);
+  .from('testimonials')
+  .update({ 
+    approved: true, 
+    approval_status: 'approved',
+    approved_at: new Date().toISOString()
+  })
+  .eq('approval_token', token);
 
     return new Response(`
       <html>
