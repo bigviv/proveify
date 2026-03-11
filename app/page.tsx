@@ -58,6 +58,25 @@ export default function Home() {
           </a>
         </div>
         <p className="text-xs text-gray-400 mt-4">Free plan available · No credit card required</p>
+
+        {/* Hero widget preview */}
+        <div className="mt-14 max-w-sm mx-auto bg-white rounded-2xl border border-gray-200 shadow-lg p-6 text-left">
+          <div className="flex gap-0.5 mb-3">
+            {[...Array(5)].map((_, i) => <span key={i} className="text-yellow-400 text-lg">★</span>)}
+          </div>
+          <p className="text-gray-700 text-sm leading-relaxed mb-4 italic">
+            "I always struggled getting testimonials from clients. Proveify made it completely effortless — I had three live on my site the same day."
+          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-semibold text-gray-800">Meera R.</p>
+              <p className="text-xs text-gray-400">Freelance Designer</p>
+            </div>
+            <a href="https://proveify.vercel.app" className="text-xs text-gray-300 hover:text-indigo-400 font-medium">
+              Verified by Proveify ↗
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* How it works + mockups */}
@@ -290,28 +309,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Who it's for */}
-      <section className="py-20 max-w-5xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-black mb-3">Built for independent professionals</h2>
-          <p className="text-gray-500">If you work with clients, you need social proof.</p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-12">
-          {[
-            { who: 'Freelance Designers', what: 'Show client praise alongside your portfolio.' },
-            { who: 'Consultants', what: 'Turn project feedback into proof that wins new clients.' },
-            { who: 'Developers', what: 'Let results speak louder than your GitHub profile.' },
-            { who: 'Agencies', what: 'Collect testimonials across all client projects automatically.' },
-            { who: 'Coaches', what: 'Turn transformation stories into compelling social proof.' },
-            { who: 'Creators', what: 'Show brands what other brands say about working with you.' },
-          ].map((u) => (
-            <div key={u.who} className="bg-gray-50 rounded-2xl p-5 border border-gray-100">
-              <p className="font-bold text-sm mb-1">{u.who}</p>
-              <p className="text-gray-500 text-sm leading-relaxed">{u.what}</p>
-            </div>
-          ))}
-        </div>
-
         {/* Where testimonials appear */}
         <div className="bg-gray-50 rounded-2xl border border-gray-100 p-8">
           <h3 className="font-black text-lg mb-2 text-center">One testimonial. Ten places it can live.</h3>
@@ -402,11 +399,33 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Who it's for */}
+      <section className="py-20 max-w-5xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-black mb-3">Built for independent professionals</h2>
+          <p className="text-gray-500">If you work with clients, you need social proof.</p>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-12">
+          {[
+            { who: 'Freelance Designers', what: 'Show client praise alongside your portfolio.' },
+            { who: 'Consultants', what: 'Turn project feedback into proof that wins new clients.' },
+            { who: 'Developers', what: 'Let results speak louder than your GitHub profile.' },
+            { who: 'Agencies', what: 'Collect testimonials across all client projects automatically.' },
+            { who: 'Coaches', what: 'Turn transformation stories into compelling social proof.' },
+            { who: 'Creators', what: 'Show brands what other brands say about working with you.' },
+          ].map((u) => (
+            <div key={u.who} className="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+              <p className="font-bold text-sm mb-1">{u.who}</p>
+              <p className="text-gray-500 text-sm leading-relaxed">{u.what}</p>
+            </div>
+          ))}
+        </div>
+  
       {/* Final CTA */}
       <section id="waitlist" className="bg-indigo-600 py-20">
         <div className="max-w-2xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-black text-white mb-3">Start collecting testimonials today.</h2>
-          <p className="text-indigo-200 mb-8">Set up Proveify in under 5 minutes. Free plan available.</p>
+          <h2 className="text-3xl font-black text-white mb-3">Turn client feedback into testimonials that win you work.</h2>
+          <p className="text-indigo-200 mb-8">Set up in under 5 minutes. Free plan available. No credit card needed.</p>
           {submitted ? (
             <div className="bg-white/20 text-white px-6 py-4 rounded-xl font-medium">
               🎉 You're on the list! We'll be in touch soon.
