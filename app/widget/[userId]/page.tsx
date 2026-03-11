@@ -1,62 +1,70 @@
-import { createClient } from '@/lib/supabase-server';
+'use client';
+import { useEffect, useState } from 'react';
+import { createClient } from '@/lib/supabase-browser';
+import { use } from 'react';
 
-export default async function WidgetPage({ params }: { params: Promise<{ userId: string }> }) {
-  const { userId } = await params;
-  const supabase = await createClient();
+type Testimonial = {
+  id: string;
+  client_name: string;
+  client_role: string;
+  content: string;
+  polished_content: string | null;
+  rating: number;
+  approved_at: string | null;
+};
 
-  const { data: testimonials } = await supabase
-    .from('testimonials')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('approved', true)
-    .order('created_at', { ascending: false });
+export default function WidgetPage({ params }: { params: Promise<{ userId: string }> }) {
+  const { userId } = use(params);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const supabase = createClient();
 
-  if (!testimonials || testimonials.length === 0) return (
-    <div style={{ fontFamily: 'sans-serif', padding: '20px', textAlign: 'center', color: '#999' }}>
-      No testimonials yet.
-    </div>
+  useEffect(() => {
+    const fetch = async () => {
+      const { data } = await supabase
+        .from('testimonials')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('approved', true)
+        .in('approval_status', ['approved', 'rejected'])
+        .order('approved_at', { ascending: false });
+      setTestimonials(data || []);
+    };
+    fetch();
+  }, []);
+
+  if (testimonials.length === 0) return (
+    <div className="p-8 text-center text-gray-400 text-sm">No testimonials yet.</div>
   );
 
   return (
-    <html>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style>{`
-          * { margin: 0; padding: 0; box-sizing: border-box; }
-          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: transparent; }
-          .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 8px; }
-          .card { background: white; border: 1px solid #f0f0f0; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-          .stars { color: #fbbf24; font-size: 14px; margin-bottom: 12px; }
-          .quote { color: #374151; font-size: 14px; line-height: 1.6; font-style: italic; margin-bottom: 16px; }
-          .author { display: flex; align-items: center; gap: 10px; }
-          .avatar { width: 36px; height: 36px; border-radius: 50%; background: #e0e7ff; color: #4f46e5; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
-          .name { font-weight: 600; font-size: 13px; color: #111; }
-          .role { font-size: 12px; color: #9ca3af; }
-          .badge { text-align: center; margin-top: 16px; }
-          .badge a { font-size: 11px; color: #c4b5fd; text-decoration: none; }
-          .badge a:hover { color: #7c3aed; }
-        `}</style>
-      </head>
-      <body>
-        <div className="grid">
-          {testimonials.map((t: any) => (
-            <div key={t.id} className="card">
-              <div className="stars">{'★'.repeat(t.rating)}{'☆'.repeat(5 - t.rating)}</div>
-              <p className="quote">"{t.polished_content || t.content}"</p>
-              <div className="author">
-                <div className="avatar">{t.client_name?.charAt(0).toUpperCase()}</div>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="grid gap-4 max-w-4xl mx-auto">
+        {testimonials.map((t) => {
+          const display = t.polished_content || t.content;
+          return (
+            <div key={t.id} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+              <div className="flex gap-1 mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className={`text-lg ${i < t.rating ? 'text-yellow-400' : 'text-gray-200'}`}>★</span>
+                ))}
+              </div>
+              <p className="text-gray-700 text-sm leading-relaxed mb-4">"{display}"</p>
+              <div className="flex items-center justify-between">
                 <div>
-                  <p className="name">{t.client_name}</p>
-                  {t.client_role && <p className="role">{t.client_role}</p>}
+                  <p className="text-sm font-semibold text-gray-800">{t.client_name}</p>
+                  {t.client_role && <p className="text-xs text-gray-400">{t.client_role}</p>}
                 </div>
               </div>
+              {t.polished_content && t.approved_at && (
+                <p className="text-xs text-gray-300 mt-3 pt-3 border-t border-gray-50">
+                  ✓ Enhanced for clarity by Proveify AI · Approved by {t.client_name}
+                </p>
+              )}
             </div>
-          ))}
-        </div>
-        <div className="badge">
-          <a href="https://proveify.vercel.app" target="_blank">Powered by Proveify</a>
-        </div>
-      </body>
-    </html>
+          );
+        })}
+      </div>
+      <p className="text-center text-xs text-gray-300 mt-6">Powered by Proveify</p>
+    </div>
   );
 }
