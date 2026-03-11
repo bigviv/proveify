@@ -14,6 +14,8 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   const [tone, setTone] = useState<Tone>('concise');
   const [polished, setPolished] = useState('');
   const [savedId, setSavedId] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const tones: { value: Tone; label: string; desc: string }[] = [
     { value: 'concise', label: 'Concise', desc: 'Short & clear' },
@@ -22,62 +24,86 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   ];
 
   const handleSubmit = async () => {
-    if (!form.name || !form.content) return;
-
-    // Save first
-    const { data } = await supabase.from('testimonials').insert({
-      user_id: userId,
-      client_name: form.name,
-      client_email: form.email,
-      client_role: form.role,
-      content: form.content,
-      rating: form.rating,
-      approved: false,
-      approval_status: 'pending',
-    }).select().single();
-
-    setSavedId(data.id);
-
-    // Flag low star reviews — don't polish, just save and notify
-    if (form.rating <= 3) {
-      await supabase.from('testimonials').update({
-        approval_status: 'low_rating'
-      }).eq('id', data.id);
-      setStep('low_star');
+    if (!form.name.trim() || !form.content.trim()) {
+      setError('Please fill in your name and experience before submitting.');
       return;
     }
-
-    setStep('polishing');
+    setError('');
+    setSubmitting(true);
 
     try {
+      // Save to Supabase
+      const { data, error: insertError } = await supabase
+        .from('testimonials')
+        .insert({
+          user_id: userId,
+          client_name: form.name.trim(),
+          client_email: form.email.trim(),
+          client_role: form.role.trim(),
+          content: form.content.trim(),
+          rating: form.rating,
+          approved: false,
+          approval_status: 'pending',
+        })
+        .select()
+        .single();
+
+      if (insertError || !data) {
+        console.error('Insert error:', insertError);
+        setError('Something went wrong saving your response. Please try again.');
+        setSubmitting(false);
+        return;
+      }
+
+      setSavedId(data.id);
+
+      // Flag low star reviews
+      if (form.rating <= 3) {
+        await supabase
+          .from('testimonials')
+          .update({ approval_status: 'low_rating' })
+          .eq('id', data.id);
+        setStep('low_star');
+        return;
+      }
+
+      setStep('polishing');
+
+      // Polish with AI
       const res = await fetch('/api/polish', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: form.content,
+          content: form.content.trim(),
           testimonialId: data.id,
-          clientEmail: form.email,
-          clientName: form.name,
+          clientEmail: form.email.trim(),
+          clientName: form.name.trim(),
           tone,
           skipEmail: true,
         }),
       });
+
       const result = await res.json();
       setPolished(result.polished || form.content);
       setStep('review');
-    } catch {
-      setPolished(form.content);
-      setStep('review');
+
+    } catch (err) {
+      console.error('Submit error:', err);
+      setError('Something went wrong. Please try again.');
+      setSubmitting(false);
     }
   };
 
-  const handleApprove = async (approved: boolean) => {
-    await supabase.from('testimonials').update({
-      polished_content: approved ? polished : null,
-      approved: true,
-      approval_status: approved ? 'approved' : 'rejected',
-      approved_at: new Date().toISOString()
-    }).eq('id', savedId);
+  const handleApprove = async (usePolished: boolean) => {
+    await supabase
+      .from('testimonials')
+      .update({
+        polished_content: usePolished ? polished : null,
+        approved: true,
+        approval_status: usePolished ? 'approved' : 'rejected',
+        approved_at: new Date().toISOString(),
+      })
+      .eq('id', savedId);
     setStep('done');
   };
 
@@ -104,7 +130,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   );
 
   if (step === 'review') return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
       <div className="max-w-lg w-full">
         <div className="text-center mb-8">
           <div className="text-3xl mb-3">✨</div>
@@ -123,7 +149,6 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
         </div>
 
         <p className="text-center text-sm text-gray-500 mb-4">Which version would you like to publish?</p>
-
         <div className="flex flex-col gap-3">
           <button onClick={() => handleApprove(true)}
             className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 text-sm">
@@ -151,7 +176,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
       <div className="max-w-lg w-full">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold mb-2">Share your experience</h1>
@@ -159,63 +184,83 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 p-8 space-y-5">
+
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1.5">Your name *</label>
-              <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
+              <label className="block text-xs font-medium text-gray-700 mb-1.5">Your name *</label>
+              <input
+                value={form.name}
+                onChange={e => setForm({ ...form, name: e.target.value })}
                 placeholder="Jane Smith"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1.5">Your email</label>
-              <input value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-                placeholder="jane@company.com" type="email"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <label className="block text-xs font-medium text-gray-700 mb-1.5">Your email</label>
+              <input
+                value={form.email}
+                onChange={e => setForm({ ...form, email: e.target.value })}
+                placeholder="jane@company.com"
+                type="email"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1.5">Your role / company</label>
-            <input value={form.role} onChange={e => setForm({ ...form, role: e.target.value })}
+            <label className="block text-xs font-medium text-gray-700 mb-1.5">Your role / company</label>
+            <input
+              value={form.role}
+              onChange={e => setForm({ ...form, role: e.target.value })}
               placeholder="Founder at Acme Inc."
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1.5">Your experience *</label>
-            <textarea value={form.content} onChange={e => setForm({ ...form, content: e.target.value })}
+            <label className="block text-xs font-medium text-gray-700 mb-1.5">Your experience *</label>
+            <textarea
+              value={form.content}
+              onChange={e => setForm({ ...form, content: e.target.value })}
               placeholder="Tell us about your experience working together..."
               rows={4}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none" />
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+            />
           </div>
 
-          {/* Rating */}
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-2">Rating</label>
+            <label className="block text-xs font-medium text-gray-700 mb-2">Rating</label>
             <div className="flex gap-2">
               {[1,2,3,4,5].map(star => (
-                <button key={star} onClick={() => setForm({ ...form, rating: star })}
-                  className={`text-3xl transition-transform hover:scale-110 ${star <= form.rating ? 'text-yellow-400' : 'text-gray-200'}`}>
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setForm({ ...form, rating: star })}
+                  className={`text-3xl transition-transform hover:scale-110 ${star <= form.rating ? 'text-yellow-400' : 'text-gray-200'}`}
+                >
                   ★
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Tone selector — only shown for 4-5 star */}
           {form.rating >= 4 && (
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-2">
+              <label className="block text-xs font-medium text-gray-700 mb-2">
                 How would you like your testimonial to read?
               </label>
               <div className="grid grid-cols-3 gap-2">
                 {tones.map(t => (
-                  <button key={t.value} onClick={() => setTone(t.value)}
+                  <button
+                    key={t.value}
+                    type="button"
+                    onClick={() => setTone(t.value)}
                     className={`py-2 px-3 rounded-lg border text-center transition-all ${
                       tone === t.value
                         ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
                         : 'border-gray-200 text-gray-500 hover:border-gray-300'
-                    }`}>
+                    }`}
+                  >
                     <p className="text-xs font-semibold">{t.label}</p>
                     <p className="text-xs text-gray-400 mt-0.5">{t.desc}</p>
                   </button>
@@ -224,9 +269,17 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
             </div>
           )}
 
-          <button onClick={handleSubmit} disabled={!form.name || !form.content}
-            className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-sm">
-            Submit testimonial →
+          {error && (
+            <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
+          )}
+
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={submitting || !form.name.trim() || !form.content.trim()}
+            className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed text-sm"
+          >
+            {submitting ? 'Submitting...' : 'Submit testimonial →'}
           </button>
         </div>
 
