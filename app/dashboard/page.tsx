@@ -23,7 +23,7 @@ export default function Dashboard() {
   const [polishing, setPolishing] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
-  const [username, setUsernam] = useState('');
+  const [username, setUsername] = useState('');
   const [usernameSaved, setUsernameSaved] = useState(false);
 
   useEffect(() => {
