@@ -240,13 +240,6 @@ export default function Dashboard() {
                       {t.approved ? 'Unapprove' : 'Approve'}
                     </button>
                     <button
-                      onClick={() => handlePolish(t.id, t.content, t.client_email || '', t.client_name)}
-                      disabled={polishing === t.id}
-                      className="text-xs px-3 py-1.5 rounded-lg font-medium bg-indigo-100 text-indigo-600 hover:bg-indigo-200 disabled:opacity-50"
-                    >
-                      {polishing === t.id ? 'Polishing...' : '✨ AI Polish'}
-                    </button>
-                    <button
                       onClick={() => handleDelete(t.id)}
                       className="text-xs px-3 py-1.5 rounded-lg font-medium bg-red-50 text-red-500 hover:bg-red-100 ml-auto"
                     >
