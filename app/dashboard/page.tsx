@@ -23,12 +23,22 @@ export default function Dashboard() {
   const [polishing, setPolishing] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
+  const [username, setUsernam] = useState('');
+  const [usernameSaved, setUsernameSaved] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push('/login'); return; }
       setUser(user);
+
+      const { data: profile } = await supabase
+  .from('profiles')
+  .select('username')
+  .eq('id', user.id)
+  .single();
+if (profile?.username) setUsername(profile.username);
+      
       const { data } = await supabase
         .from('testimonials')
         .select('*')
@@ -83,8 +93,44 @@ export default function Dashboard() {
     setTestimonials(prev => prev.filter(t => t.id !== id));
   };
 
+  const handleSaveUsername = async () => {
+  if (!username || !user) return;
+  await supabase.from('profiles').update({ username }).eq('id', user.id);
+  setUsernameSaved(true);
+  setTimeout(() => setUsernameSaved(false), 2000);
+};
+  
   const collectionUrl = user ? `${window.location.origin}/collect/${user.id}` : '';
 
+  {/* Profile page */}
+<div className="bg-white border border-gray-100 rounded-2xl p-6 mb-6">
+  <h2 className="font-semibold text-gray-900 mb-1">Your public proof profile</h2>
+  <p className="text-sm text-gray-500 mb-4">Share this page in proposals, LinkedIn, and anywhere clients might look you up.</p>
+  <div className="flex gap-3 items-center">
+    <div className="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-400 whitespace-nowrap">
+      proveify.vercel.app/profile/
+    </div>
+    <input
+      value={username}
+      onChange={e => setUsername(e.target.value)}
+      placeholder="yourname"
+      className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
+    <button
+      onClick={handleSaveUsername}
+      className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 whitespace-nowrap"
+    >
+      Save
+    </button>
+  </div>
+  {username && (
+    <a href={`/profile/${username}`} target="_blank"
+      className="text-xs text-indigo-500 mt-2 inline-block hover:underline">
+      View your profile →
+    </a>
+  )}
+</div>
+  
   if (loading) return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-gray-400 text-sm">Loading...</div>
