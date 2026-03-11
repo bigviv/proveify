@@ -50,33 +50,33 @@ export default function Dashboard() {
     setTestimonials(prev => prev.map(t => t.id === id ? { ...t, approved: !approved } : t));
   };
 
- const handlePolish = async (id: string, content: string, clientEmail: string, clientName: string) => {
-  setPolishing(id);
-  try {
-    const res = await fetch('/api/polish', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 
-        content, 
-        testimonialId: id,
-        clientEmail,
-        clientName
-      }),
-    });
-    const data = await res.json();
-    if (data.polished) {
-      setTestimonials(prev => prev.map(t => 
-        t.id === id ? { 
-          ...t, 
-          polished_content: data.polished,
-          approval_status: data.awaitingApproval ? 'pending_approval' : 'approved'
-        } : t
-      ));
+  const handlePolish = async (id: string, content: string, clientEmail: string, clientName: string) => {
+    setPolishing(id);
+    try {
+      const res = await fetch('/api/polish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content,
+          testimonialId: id,
+          clientEmail,
+          clientName
+        }),
+      });
+      const data = await res.json();
+      if (data.polished) {
+        setTestimonials(prev => prev.map(t =>
+          t.id === id ? {
+            ...t,
+            polished_content: data.polished,
+            approval_status: data.awaitingApproval ? 'pending_approval' : 'approved'
+          } : t
+        ));
+      }
+    } finally {
+      setPolishing(null);
     }
-  } finally {
-    setPolishing(null);
-  }
-};
+  };
 
   const handleDelete = async (id: string) => {
     await supabase.from('testimonials').delete().eq('id', id);
@@ -99,13 +99,12 @@ export default function Dashboard() {
         <span className="text-lg font-bold tracking-tight">Proveify</span>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-500">{user?.email}</span>
-         <button
-  onClick={() => handlePolish(t.id, t.content, t.client_email, t.client_name)}
-  disabled={polishing === t.id}
-  className="text-xs px-3 py-1.5 rounded-lg font-medium bg-indigo-100 text-indigo-600 hover:bg-indigo-200 disabled:opacity-50"
->
-  {polishing === t.id ? 'Polishing...' : '✨ AI Polish'}
-</button>
+          <a href="/upgrade" className="text-sm bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 font-medium">
+            Upgrade
+          </a>
+          <button onClick={handleSignOut} className="text-sm text-gray-500 hover:text-gray-900">
+            Sign out
+          </button>
         </div>
       </nav>
 
@@ -118,7 +117,7 @@ export default function Dashboard() {
         </div>
 
         {/* Collection link */}
-        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 mb-10">
+        <div className="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 mb-6">
           <h2 className="font-semibold text-indigo-900 mb-1">Your collection link</h2>
           <p className="text-sm text-indigo-700 mb-4">Share this link with clients to collect testimonials automatically.</p>
           <div className="flex gap-3 items-center">
@@ -136,25 +135,25 @@ export default function Dashboard() {
           </div>
         </div>
 
-{/* Embed code */}
-<div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 mb-10">
-  <h2 className="font-semibold text-gray-900 mb-1">Embed your wall of love</h2>
-  <p className="text-sm text-gray-500 mb-4">Paste this into any website — Webflow, WordPress, Framer, Carrd. Works anywhere.</p>
-  <div className="flex gap-3 items-center">
-    <input
-      readOnly
-      value={`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`}
-      className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-2 text-xs text-gray-600 focus:outline-none font-mono"
-    />
-    <button
-      onClick={() => navigator.clipboard.writeText(`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`)}
-      className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 whitespace-nowrap"
-    >
-      Copy code
-    </button>
-  </div>
-</div>
-        
+        {/* Embed code */}
+        <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 mb-10">
+          <h2 className="font-semibold text-gray-900 mb-1">Embed your wall of love</h2>
+          <p className="text-sm text-gray-500 mb-4">Paste this into any website — Webflow, WordPress, Framer, Carrd. Works anywhere.</p>
+          <div className="flex gap-3 items-center">
+            <input
+              readOnly
+              value={`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`}
+              className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-2 text-xs text-gray-600 focus:outline-none font-mono"
+            />
+            <button
+              onClick={() => navigator.clipboard.writeText(`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`)}
+              className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 whitespace-nowrap"
+            >
+              Copy code
+            </button>
+          </div>
+        </div>
+
         {/* Stats */}
         <div className="grid grid-cols-3 gap-6 mb-10">
           {[
@@ -205,16 +204,15 @@ export default function Dashboard() {
                           {[...Array(t.rating)].map((_, i) => <span key={i} className="text-yellow-400 text-xs">★</span>)}
                         </div>
                         <span className={`ml-auto text-xs px-2 py-1 rounded-full font-medium ${
-  t.approval_status === 'approved' ? 'bg-green-100 text-green-600' : 
-  t.approval_status === 'pending_approval' ? 'bg-yellow-100 text-yellow-600' :
-  t.approval_status === 'rejected' ? 'bg-gray-100 text-gray-500' :
-  'bg-gray-100 text-gray-500'
-}`}>
-  {t.approval_status === 'approved' ? '✓ Approved' : 
-   t.approval_status === 'pending_approval' ? '⏳ Awaiting approval' :
-   t.approval_status === 'rejected' ? 'Original kept' :
-   'Pending'}
-</span>
+                          t.approval_status === 'approved' ? 'bg-green-100 text-green-600' :
+                          t.approval_status === 'pending_approval' ? 'bg-yellow-100 text-yellow-600' :
+                          'bg-gray-100 text-gray-500'
+                        }`}>
+                          {t.approval_status === 'approved' ? '✓ Approved' :
+                           t.approval_status === 'pending_approval' ? '⏳ Awaiting approval' :
+                           t.approval_status === 'rejected' ? 'Original kept' :
+                           'Pending'}
+                        </span>
                       </div>
 
                       {/* Original */}
@@ -242,7 +240,7 @@ export default function Dashboard() {
                       {t.approved ? 'Unapprove' : 'Approve'}
                     </button>
                     <button
-                      onClick={() => handlePolish(t.id, t.content)}
+                      onClick={() => handlePolish(t.id, t.content, t.client_email || '', t.client_name)}
                       disabled={polishing === t.id}
                       className="text-xs px-3 py-1.5 rounded-lg font-medium bg-indigo-100 text-indigo-600 hover:bg-indigo-200 disabled:opacity-50"
                     >
