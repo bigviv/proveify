@@ -1,12 +1,10 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,9 +32,7 @@ export default function Home() {
           <a href="#how-it-works" className="hidden sm:block text-sm text-gray-500 hover:text-gray-900">How it works</a>
           <a href="#pricing" className="hidden sm:block text-sm text-gray-500 hover:text-gray-900">Pricing</a>
           <a href="/login" className="text-sm text-gray-600 hover:text-gray-900 font-medium">Login</a>
-          <a href="/login" className="bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-gray-800">
-            Start free
-          </a>
+          <a href="/login" className="bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-gray-800">Start free</a>
         </div>
       </nav>
 
@@ -52,84 +48,215 @@ export default function Home() {
         <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-4 leading-relaxed">
           Proveify automatically collects feedback from clients, turns it into clear testimonials, and lets you embed them on your website in minutes.
         </p>
-        <p className="text-base text-gray-400 mb-10">
-          No chasing clients. No awkward requests. No copywriting needed.
-        </p>
+        <p className="text-base text-gray-400 mb-10">No chasing clients. No awkward requests. No copywriting needed.</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <a href="/login"
-            className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-base hover:bg-indigo-700 transition-colors">
+          <a href="/login" className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-semibold text-base hover:bg-indigo-700">
             Start collecting testimonials →
           </a>
-          <a href="#how-it-works"
-            className="bg-gray-100 text-gray-700 px-8 py-4 rounded-xl font-semibold text-base hover:bg-gray-200 transition-colors">
+          <a href="#how-it-works" className="bg-gray-100 text-gray-700 px-8 py-4 rounded-xl font-semibold text-base hover:bg-gray-200">
             See how it works
           </a>
         </div>
         <p className="text-xs text-gray-400 mt-4">Free plan available · No credit card required</p>
       </section>
 
-      {/* How it works */}
+      {/* How it works + mockups */}
       <section id="how-it-works" className="bg-gray-50 py-20">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-black mb-3">How Proveify works</h2>
             <p className="text-gray-500">Four steps. Under five minutes to set up.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6 mb-16">
-            {[
-              { step: '1', title: 'Send your client a link', desc: 'Share a unique feedback link. Works by email, WhatsApp, or anywhere.' },
-              { step: '2', title: 'They answer 3 quick questions', desc: 'What problem did you solve? What result did they see? Would they recommend you?' },
-              { step: '3', title: 'AI polishes their words', desc: 'Their answers become a clear, compelling testimonial. They approve it.' },
-              { step: '4', title: 'Embed anywhere instantly', desc: 'One line of code. Works on Webflow, WordPress, Framer, Carrd, anywhere.' },
-            ].map((s) => (
-              <div key={s.step} className="bg-white rounded-2xl p-6 border border-gray-100">
-                <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">
-                  {s.step}
-                </div>
-                <h3 className="font-bold text-sm mb-2">{s.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{s.desc}</p>
-              </div>
-            ))}
-          </div>
 
-          {/* Before / After */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-8">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-6 text-center">Real example</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Raw client feedback</p>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-gray-500 text-sm italic leading-relaxed">
-                    "Working with Sarah helped a lot. Our website traffic increased and communication was smooth."
-                  </p>
-                </div>
+          {/* Step 1 — Collection form mockup */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center mb-20">
+            <div>
+              <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">1</div>
+              <h3 className="text-xl font-black mb-3">Send your client a feedback link</h3>
+              <p className="text-gray-500 leading-relaxed mb-3">Share a unique link by email, WhatsApp, or anywhere. Clients answer three quick questions — what problem you solved, what result they saw, and whether they'd recommend you.</p>
+              <p className="text-sm text-indigo-600 font-medium">Takes clients less than 2 minutes.</p>
+            </div>
+            {/* Form mockup */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <div className="flex-1 bg-gray-100 rounded text-xs text-gray-400 px-3 py-1 ml-2">proveify.vercel.app/collect/...</div>
               </div>
-              <div>
-                <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide mb-3">✨ AI-polished testimonial</p>
-                <div className="bg-indigo-50 rounded-xl p-4">
-                  <p className="text-gray-800 text-sm italic leading-relaxed">
-                    "Sarah was fantastic to work with. She improved our website strategy and we saw a noticeable increase in traffic within weeks. Communication was smooth throughout."
-                  </p>
-                  <div className="flex gap-3 mt-3 pt-3 border-t border-indigo-100">
-                    <span className="text-xs text-indigo-500 font-medium">✔ From real feedback</span>
-                    <span className="text-xs text-indigo-500 font-medium">✔ AI polished</span>
-                    <span className="text-xs text-indigo-500 font-medium">✔ Client approved</span>
+              <p className="text-xs font-bold text-gray-700 mb-4">Share your experience</p>
+              <div className="space-y-3">
+                <div>
+                  <p className="text-xs text-gray-400 mb-1">Your name</p>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-600">Sarah Johnson</div>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-400 mb-1">Your experience</p>
+                  <div className="bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs text-gray-500 leading-relaxed">Working with Alex helped a lot. Our website traffic went up and communication was really smooth throughout.</div>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-400 mb-1">Rating</p>
+                  <div className="flex gap-1">
+                    {[1,2,3,4,5].map(i => <span key={i} className="text-yellow-400 text-sm">★</span>)}
                   </div>
                 </div>
+                <div>
+                  <p className="text-xs text-gray-400 mb-1">Tone</p>
+                  <div className="flex gap-2">
+                    {['Concise','Casual','Professional'].map((t,i) => (
+                      <span key={t} className={`text-xs px-2 py-1 rounded-lg border ${i===0 ? 'border-indigo-500 bg-indigo-50 text-indigo-600 font-medium' : 'border-gray-200 text-gray-400'}`}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-indigo-600 text-white text-xs text-center py-2 rounded-lg font-medium">Submit testimonial →</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Step 2 — AI polish mockup */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center mb-20">
+            {/* Before/after mockup */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 order-2 sm:order-1">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <span className="text-xs text-gray-400 ml-2">AI Polish</span>
+              </div>
+              <div className="mb-4">
+                <p className="text-xs text-gray-400 uppercase tracking-wide font-medium mb-2">Original</p>
+                <div className="bg-gray-50 rounded-xl p-3">
+                  <p className="text-xs text-gray-500 italic leading-relaxed">"Working with Alex helped a lot. Our website traffic went up and communication was really smooth throughout."</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-center my-3">
+                <div className="flex items-center gap-2 bg-indigo-50 text-indigo-600 text-xs font-medium px-3 py-1.5 rounded-full">
+                  <span className="animate-pulse">✨</span> AI polishing...
+                </div>
+              </div>
+              <div>
+                <p className="text-xs text-indigo-400 uppercase tracking-wide font-medium mb-2">✨ Polished</p>
+                <div className="bg-indigo-50 rounded-xl p-3">
+                  <p className="text-xs text-gray-700 italic leading-relaxed">"Alex delivered exactly what we needed. Our website traffic increased noticeably and the entire process felt effortless — communication was clear and professional from start to finish."</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 mt-4">
+                <div className="bg-indigo-600 text-white text-xs text-center py-2 rounded-lg font-medium">✓ Use polished</div>
+                <div className="bg-gray-100 text-gray-500 text-xs text-center py-2 rounded-lg">Use original</div>
+              </div>
+            </div>
+            <div className="order-1 sm:order-2">
+              <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">2</div>
+              <h3 className="text-xl font-black mb-3">AI polishes their words — they approve</h3>
+              <p className="text-gray-500 leading-relaxed mb-3">Proveify takes their raw feedback and turns it into a clear, compelling testimonial. The client sees both versions and picks the one they're happy with.</p>
+              <p className="text-sm text-indigo-600 font-medium">Their words. Just better expressed. With their consent.</p>
+            </div>
+          </div>
+
+          {/* Step 3 — Dashboard mockup */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center mb-20">
+            <div>
+              <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">3</div>
+              <h3 className="text-xl font-black mb-3">Manage everything from your dashboard</h3>
+              <p className="text-gray-500 leading-relaxed mb-3">See every testimonial, original and polished side by side. Approve, unapprove, or delete. Low-rated reviews are flagged automatically so you never accidentally publish a complaint.</p>
+              <p className="text-sm text-indigo-600 font-medium">Full control. Zero chaos.</p>
+            </div>
+            {/* Dashboard mockup */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <span className="text-xs text-gray-400 ml-2">Dashboard</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                {[['4', 'Total'], ['3', 'Approved'], ['3', 'Polished']].map(([n, l]) => (
+                  <div key={l} className="bg-gray-50 rounded-xl p-2 text-center">
+                    <p className="text-lg font-black text-indigo-600">{n}</p>
+                    <p className="text-xs text-gray-400">{l}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-2">
+                {[
+                  { name: 'Sarah J.', stars: 5, text: 'Alex delivered exactly what we needed...', badge: '✓ Approved', badgeColor: 'bg-green-100 text-green-600' },
+                  { name: 'David C.', stars: 5, text: 'The fastest developer I have worked with...', badge: '✓ Approved', badgeColor: 'bg-green-100 text-green-600' },
+                  { name: 'Peter M.', stars: 3, text: 'Good tiling but had an issue...', badge: '⚠️ Needs attention', badgeColor: 'bg-red-50 text-red-500' },
+                ].map((t) => (
+                  <div key={t.name} className="bg-gray-50 rounded-xl p-3 flex items-center gap-3">
+                    <div className="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600 shrink-0">
+                      {t.name[0]}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1 mb-0.5">
+                        <p className="text-xs font-semibold">{t.name}</p>
+                        <div className="flex">
+                          {[...Array(t.stars)].map((_,i) => <span key={i} className="text-yellow-400 text-xs">★</span>)}
+                        </div>
+                      </div>
+                      <p className="text-xs text-gray-400 truncate">{t.text}</p>
+                    </div>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium shrink-0 ${t.badgeColor}`}>{t.badge}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Step 4 — Widget mockup */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 items-center">
+            {/* Widget mockup */}
+            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 order-2 sm:order-1">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <span className="text-xs text-gray-400 ml-2">yourwebsite.com</span>
+              </div>
+              <p className="text-xs font-bold text-gray-500 mb-3 uppercase tracking-wide">What clients say</p>
+              <div className="space-y-3">
+                {[
+                  { name: 'Sarah Johnson', role: 'Marketing Director', text: 'Alex delivered exactly what we needed. Traffic increased noticeably and communication was clear throughout.' },
+                  { name: 'David Chen', role: 'Founder, Acme SaaS', text: 'The fastest and most professional developer I have worked with. On time, on budget, every time.' },
+                ].map((t) => (
+                  <div key={t.name} className="bg-gray-50 rounded-xl p-4">
+                    <div className="flex gap-0.5 mb-2">
+                      {[...Array(5)].map((_,i) => <span key={i} className="text-yellow-400 text-xs">★</span>)}
+                    </div>
+                    <p className="text-xs text-gray-700 leading-relaxed italic mb-3">"{t.text}"</p>
+                    <div>
+                      <p className="text-xs font-semibold">{t.name}</p>
+                      <p className="text-xs text-gray-400">{t.role}</p>
+                    </div>
+                    <p className="text-xs text-gray-300 mt-2 pt-2 border-t border-gray-100">✓ Enhanced by Proveify AI · Approved by {t.name.split(' ')[0]}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="order-1 sm:order-2">
+              <div className="w-8 h-8 bg-indigo-600 text-white rounded-lg flex items-center justify-center text-sm font-bold mb-4">4</div>
+              <h3 className="text-xl font-black mb-3">Embed anywhere with one line of code</h3>
+              <p className="text-gray-500 leading-relaxed mb-4">Paste one line of code and your testimonial wall appears on any website. Works everywhere.</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {['Webflow', 'WordPress', 'Framer', 'Carrd', 'Notion', 'Squarespace'].map(p => (
+                  <span key={p} className="bg-gray-100 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-lg">{p}</span>
+                ))}
+              </div>
+              <div className="bg-gray-900 text-green-400 text-xs font-mono px-4 py-3 rounded-xl">
+                {'<iframe src="proveify.app/widget/...'}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trust / Authenticity */}
+      {/* Trust */}
       <section className="py-20 max-w-4xl mx-auto px-6">
         <div className="bg-indigo-600 rounded-3xl p-10 text-center text-white">
           <div className="text-3xl mb-4">🔒</div>
           <h2 className="text-2xl font-black mb-3">Authenticity first. Always.</h2>
           <p className="text-indigo-100 text-base leading-relaxed max-w-xl mx-auto mb-6">
-            Proveify never invents testimonials. AI only improves wording based on real client responses.
-            Your client reviews and approves every testimonial before it's published.
+            Proveify never invents testimonials. AI only improves wording based on real client responses. Your client reviews and approves every testimonial before it's published. Approval is timestamped and stored.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center text-sm font-medium">
             <span className="bg-white/20 px-4 py-2 rounded-lg">✓ Client approves every word</span>
@@ -139,45 +266,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Widget demo */}
+      {/* Real testimonials — human sounding */}
       <section className="bg-gray-50 py-20">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-black mb-3">See how it looks on your site</h2>
-            <p className="text-gray-500">This is exactly what your visitors will see.</p>
+            <h2 className="text-3xl font-black mb-3">What freelancers say</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { name: 'David Chen', role: 'Founder, Acme SaaS', rating: 5, text: 'Sarah transformed our website strategy completely. Traffic increased within two weeks of the redesign going live.' },
-              { name: 'Priya Sharma', role: 'Marketing Director', rating: 5, text: 'The fastest and most professional web developer I have worked with. Delivered on time, on budget, every time.' },
-              { name: 'James O\'Brien', role: 'CEO, Buildfast', rating: 5, text: 'Incredible attention to detail. Our conversion rate improved significantly after working together.' },
+              { name: 'Meera R.', role: 'Freelance Designer', text: 'Clients always said nice things after projects but I never used them anywhere. Proveify turned those into testimonials I could actually put on my site.' },
+              { name: 'Tom B.', role: 'Web Developer', text: "I'd been meaning to collect testimonials for two years. Set up Proveify in ten minutes and had three testimonials on my site by the end of the day." },
+              { name: 'Ananya S.', role: 'Brand Consultant', text: "The AI doesn't make stuff up — it just makes what clients wrote actually readable. My clients loved seeing the polished version." },
             ].map((t) => (
-              <div key={t.name} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-                <div className="flex gap-0.5 mb-3">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-lg">★</span>
-                  ))}
-                </div>
+              <div key={t.name} className="bg-white rounded-2xl border border-gray-100 p-6">
                 <p className="text-gray-700 text-sm leading-relaxed mb-4">"{t.text}"</p>
                 <div>
                   <p className="text-sm font-semibold">{t.name}</p>
                   <p className="text-xs text-gray-400">{t.role}</p>
                 </div>
-                <p className="text-xs text-gray-300 mt-3 pt-3 border-t border-gray-50">
-                  ✓ Enhanced by Proveify AI · Approved by {t.name.split(' ')[0]}
-                </p>
               </div>
             ))}
-          </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-500 mb-4">Embeds on any platform with one line of code</p>
-            <div className="flex flex-wrap gap-3 justify-center">
-              {['Webflow', 'WordPress', 'Framer', 'Carrd', 'Notion', 'Squarespace'].map(p => (
-                <span key={p} className="bg-white border border-gray-200 text-gray-600 text-xs font-medium px-3 py-1.5 rounded-lg">
-                  {p}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -188,7 +296,7 @@ export default function Home() {
           <h2 className="text-3xl font-black mb-3">Built for independent professionals</h2>
           <p className="text-gray-500">If you work with clients, you need social proof.</p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-12">
           {[
             { who: 'Freelance Designers', what: 'Show client praise alongside your portfolio.' },
             { who: 'Consultants', what: 'Turn project feedback into proof that wins new clients.' },
@@ -203,10 +311,41 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        {/* Where testimonials appear */}
+        <div className="bg-gray-50 rounded-2xl border border-gray-100 p-8">
+          <h3 className="font-black text-lg mb-2 text-center">One testimonial. Ten places it can live.</h3>
+          <p className="text-gray-500 text-sm text-center mb-6">Every approved testimonial can become content across your entire marketing.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+            {['Website', 'Portfolio', 'LinkedIn', 'Case studies', 'Pitch decks', 'Email', 'Proposals', 'Notion', 'Instagram', 'Cold outreach'].map(p => (
+              <div key={p} className="bg-white border border-gray-200 text-gray-600 text-xs font-medium px-3 py-2 rounded-lg text-center">{p}</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Founder story */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="bg-white rounded-2xl border border-gray-100 p-10">
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Why Proveify exists</p>
+            <h2 className="text-2xl font-black mb-5">I got tired of watching great freelancers lose work they deserved.</h2>
+            <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
+              <p>Clients were happy. Projects went well. But when it came to testimonials, everyone went quiet. Not because they didn't want to help — but because writing a review felt like work.</p>
+              <p>So freelancers kept winning jobs without any proof they were worth hiring. New clients had to take the risk. Some did. Many didn't.</p>
+              <p>I built Proveify to fix that. Send clients a link. They answer three quick questions. AI turns their answers into a real testimonial. They approve it. Done.</p>
+              <p>No awkward follow-ups. No copywriting. No blank page anxiety for the client.</p>
+            </div>
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <p className="text-sm font-semibold">Vivek</p>
+              <p className="text-xs text-gray-400">Founder, Proveify</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="bg-gray-50 py-20">
+      <section id="pricing" className="py-20">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-black mb-3">Simple pricing</h2>
@@ -259,27 +398,14 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <p className="text-center text-xs text-gray-400 mt-6">All plans include cancel anytime · No lock-in · Export your data whenever</p>
+          <p className="text-center text-xs text-gray-400 mt-6">All plans · Cancel anytime · No lock-in · Export your data whenever</p>
         </div>
-      </section>
-
-      {/* Founder trust */}
-      <section className="py-20 max-w-3xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-black mb-4">Built for freelancers, by someone who gets it</h2>
-        <p className="text-gray-500 leading-relaxed mb-6">
-          Proveify was built because freelancers do great work but rarely get the credit they deserve.
-          Clients are happy — but they almost never write reviews unless someone makes it easy.
-          Proveify makes that process automatic, ethical, and effortless.
-        </p>
-        <p className="text-gray-400 text-sm">— Vivek, Founder of Proveify</p>
       </section>
 
       {/* Final CTA */}
       <section id="waitlist" className="bg-indigo-600 py-20">
         <div className="max-w-2xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-black text-white mb-3">
-            Start collecting testimonials today.
-          </h2>
+          <h2 className="text-3xl font-black text-white mb-3">Start collecting testimonials today.</h2>
           <p className="text-indigo-200 mb-8">Set up Proveify in under 5 minutes. Free plan available.</p>
           {submitted ? (
             <div className="bg-white/20 text-white px-6 py-4 rounded-xl font-medium">
@@ -287,14 +413,9 @@ export default function Home() {
             </div>
           ) : (
             <form onSubmit={handleWaitlist} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-xl text-gray-900 text-sm focus:outline-none"
-                required
-              />
+                className="flex-1 px-4 py-3 rounded-xl text-gray-900 text-sm focus:outline-none" required />
               <button type="submit" disabled={loading}
                 className="bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold text-sm hover:bg-indigo-50 disabled:opacity-50 whitespace-nowrap">
                 {loading ? 'Joining...' : 'Start free →'}
