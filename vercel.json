@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/reminders?secret=proveify_cron_2025",
+      "schedule": "0 9 * * *"
+    }
+  ]
+}
