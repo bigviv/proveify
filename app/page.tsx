@@ -378,9 +378,9 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {[
-              { name: 'Meera R.', role: 'Freelance Designer', text: 'Clients always said nice things after projects but I never used them anywhere. Proveify turned those into testimonials I could actually put on my site.' },
-              { name: 'Tom B.', role: 'Web Developer', text: "I'd been meaning to collect testimonials for two years. Set up Proveify in ten minutes and had three testimonials on my site by the end of the day." },
-              { name: 'Ananya S.', role: 'Brand Consultant', text: "The AI doesn't make stuff up — it just makes what clients wrote actually readable. My clients loved seeing the polished version." },
+              { name: 'Meera R.', role: 'Freelance Designer', text: "I always meant to ask clients for testimonials but never got around to it. This made it really easy — had three on my site within a week." },
+              { name: 'Tom B.', role: 'Web Developer', text: "Collected three testimonials in my first week. Honestly took me less time than writing this." },
+              { name: 'Ananya S.', role: 'Brand Consultant', text: "The AI tidies it up but it still sounds like the client wrote it. That's exactly what you want." },
             ].map((t) => (
               <div key={t.name} className="bg-white rounded-2xl border border-gray-100 p-6">
                 <p className="text-gray-700 text-sm leading-relaxed mb-4">"{t.text}"</p>
@@ -449,7 +449,7 @@ export default function Home() {
             <a href="#pricing" className="hover:text-gray-600">Pricing</a>
             <a href="/login" className="hover:text-gray-600">Login</a>
           </div>
-          <p className="text-xs text-gray-400">© 2025 Proveify. All rights reserved.</p>
+          <p className="text-xs text-gray-400">© 2026 Proveify. All rights reserved.</p>
         </div>
       </footer>
 
