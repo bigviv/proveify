@@ -401,14 +401,16 @@ export default function Home() {
             <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">Why Proveify exists</p>
             <h2 className="text-2xl font-black mb-5">I got tired of watching great freelancers lose work they deserved.</h2>
             <div className="space-y-4 text-gray-600 text-sm leading-relaxed">
-              <p>Clients were happy. Projects went well. But when it came to testimonials, everyone went quiet. Not because they didn't want to help — but because writing a review felt like work.</p>
-              <p>So freelancers kept winning jobs without any proof they were worth hiring. New clients had to take the risk. Some did. Many didn't.</p>
-              <p>I built Proveify to fix that. Send clients a link. They answer three quick questions. AI turns their answers into a real testimonial. They approve it. Done.</p>
-              <p>No awkward follow-ups. No copywriting. No blank page anxiety for the client.</p>
+              <p>I'm a Londoner — born and raised. Last year, I made the move to India, and it completely changed how I saw the freelance economy. The talent here is extraordinary. Developers, designers, consultants doing genuinely world-class work for clients across the globe.</p>
+              <p>But there was a pattern I kept seeing. Great work would get done, clients would be happy, and then... nothing. No testimonials. No social proof. No record of the results they'd delivered. The next client had to take a leap of faith.</p>
+              <p>It wasn't laziness. Clients meant to write something. Freelancers meant to ask. But asking felt awkward, writing felt like work, and it just never happened.</p>
+              <p>I built Proveify because that gap felt unnecessary. The feedback was already there — in emails, in messages, in conversations. It just needed a simple way to become something useful.</p>
+              <p>Send a link. Client answers three quick questions. AI turns their words into a proper testimonial. They approve it. Done. No chasing, no awkwardness, no blank page.</p>
+              <p>If you're a freelancer anywhere in the world — but especially if you're part of the incredible independent community here in India — this is built for you.</p>
             </div>
             <div className="mt-6 pt-6 border-t border-gray-100">
               <p className="text-sm font-semibold">Vivek</p>
-              <p className="text-xs text-gray-400">Founder, Proveify</p>
+              <p className="text-xs text-gray-400">Founder, Proveify · London → Bangalore</p>
             </div>
           </div>
         </div>
