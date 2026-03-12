@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Proveify | AI-powered social proof for freelancers & agencies",
   description: "Collect testimonials from clients automatically, polish them with AI, and display them beautifully on your website. Set up in 5 minutes.",
+icons: {
+  icon: '/favicon.png',
+},
 };
 
 export default function RootLayout({
