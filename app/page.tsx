@@ -31,6 +31,7 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <a href="#how-it-works" className="hidden sm:block text-sm text-gray-500 hover:text-gray-900">How it works</a>
           <a href="#pricing" className="hidden sm:block text-sm text-gray-500 hover:text-gray-900">Pricing</a>
+          <a href="/example" className="hidden sm:block text-sm text-gray-500 hover:text-gray-900">See example</a>
           <a href="/login" className="text-sm text-gray-600 hover:text-gray-900 font-medium">Login</a>
           <a href="/login" className="bg-black text-white text-sm px-4 py-2 rounded-lg hover:bg-gray-800">Start free</a>
         </div>
