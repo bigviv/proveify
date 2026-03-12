@@ -99,7 +99,7 @@ export default function Home() {
                 <div className="w-2 h-2 rounded-full bg-red-400"></div>
                 <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                <div className="flex-1 bg-gray-100 rounded text-xs text-gray-400 px-3 py-1 ml-2">proveify.vercel.app/collect/...</div>
+                <div className="flex-1 bg-gray-100 rounded text-xs text-gray-400 px-3 py-1 ml-2">proveify.app/collect/...</div>
               </div>
               <p className="text-xs font-bold text-gray-700 mb-4">Share your experience</p>
               <div className="space-y-3">
