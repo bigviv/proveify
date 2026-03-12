@@ -59,7 +59,7 @@ export default function WidgetPage({ params }: { params: Promise<{ userId: strin
                 <p className="text-xs text-gray-300">
                   {t.polished_content && t.approved_at ? `✓ Approved by ${t.client_name}` : ''}
                 </p>
-                <a href="https://proveify.vercel.app" target="_blank" rel="noopener noreferrer"
+                <a href="https://proveify.app" target="_blank" rel="noopener noreferrer"
                   className="text-xs text-gray-300 hover:text-indigo-400 transition-colors font-medium">
                   Verified by Proveify ↗
                 </a>
