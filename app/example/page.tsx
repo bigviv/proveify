@@ -94,7 +94,7 @@ export default function ExamplePage() {
             </div>
             <div className="mt-3 pt-3 border-t border-gray-50 flex items-center justify-between">
               <p className="text-xs text-gray-300">✓ Approved by {t.client_name.split(' ')[0]}</p>
-              <Link href="https://proveify.vercel.app" className="text-xs text-gray-300 hover:text-indigo-400 font-medium">
+              <Link href="https://proveify.app" className="text-xs text-gray-300 hover:text-indigo-400 font-medium">
                 Verified by Proveify ↗
               </Link>
             </div>
