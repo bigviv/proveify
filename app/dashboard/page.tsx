@@ -108,7 +108,7 @@ if (profile?.username) setUsername(profile.username);
   <p className="text-sm text-gray-500 mb-4">Share this page in proposals, LinkedIn, and anywhere clients might look you up.</p>
   <div className="flex gap-3 items-center">
     <div className="flex items-center bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-400 whitespace-nowrap">
-      proveify.vercel.app/profile/
+      proveify.app/profile/
     </div>
     <input
       value={username}
@@ -188,11 +188,11 @@ if (profile?.username) setUsername(profile.username);
           <div className="flex gap-3 items-center">
             <input
               readOnly
-              value={`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`}
+              value={`<iframe src="https://proveify.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`}
               className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-2 text-xs text-gray-600 focus:outline-none font-mono"
             />
             <button
-              onClick={() => navigator.clipboard.writeText(`<iframe src="https://proveify.vercel.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`)}
+              onClick={() => navigator.clipboard.writeText(`<iframe src="https://proveify.app/widget/${user?.id}" width="100%" height="400" frameborder="0" style="border:none;border-radius:16px;"></iframe>`)}
               className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-700 whitespace-nowrap"
             >
               Copy code
