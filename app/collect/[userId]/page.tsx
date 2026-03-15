@@ -38,36 +38,34 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
     setSubmitting(true);
 
     try {
-      const { data, error: insertError } = await supabase
-        .from('testimonials')
-        .insert({
-          user_id: userId,
-          client_name: form.name.trim(),
-          client_email: form.email.trim(),
-          client_role: form.role.trim(),
-          content: form.content.trim(),
+      const res = await fetch('/api/testimonials', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          name: form.name,
+          email: form.email,
+          role: form.role,
+          content: form.content,
           rating: form.rating,
-          approved: false,
-          approval_status: 'pending',
-        })
-        .select()
-        .single();
+        }),
+      });
 
-      if (insertError || !data) {
-        console.error('Insert error:', insertError);
-        setError('Something went wrong saving your response. Please try again.');
+      const payload = await res.json();
+
+      if (!res.ok || !payload?.testimonial) {
+        console.error('Create testimonial failed:', payload);
+        setError(payload?.error || 'Something went wrong saving your response. Please try again.');
         setSubmitting(false);
         return;
       }
 
+      const data = payload.testimonial;
       setSavedId(data.id);
 
-      if (form.rating <= 3) {
-        await supabase
-          .from('testimonials')
-          .update({ approval_status: 'low_rating' })
-          .eq('id', data.id);
+      if (data.approval_status === 'low_rating') {
         setStep('low_star');
+        setSubmitting(false);
         return;
       }
 
