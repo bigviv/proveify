@@ -233,6 +233,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
         <p className="text-gray-500 text-sm leading-relaxed">
           Your testimonial has been submitted and approved. It means a lot!
         </p>
+        <p className="text-gray-400 text-xs">You can close this tab now.</p>
       </div>
     </div>
   );
