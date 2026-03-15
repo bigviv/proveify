@@ -8,12 +8,12 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const { content, testimonialId, clientEmail, clientName, skipEmail, tone } = await request.json();
+    const { content, testimonialId, clientEmail, clientName, skipEmail, tone, previewOnly } = await request.json();
 
     const toneInstructions: Record<string, string> = {
-      concise: '1-2 sentences max. Clean and clear. No fluff. Sounds like a real person.',
-      casual: '2-3 sentences. Warm and conversational. Sounds like a real person talking to a friend.',
-      professional: '3-4 sentences. Polished but not corporate. Specific where possible.',
+      concise: 'EXACTLY 1 sentence. Punchy and direct. Natural spoken language. No fluff. No filler words.',
+      casual: '1 to 2 sentences maximum. Warm and natural. Realistic everyday tone. Not overly enthusiastic. Sounds like a real person texting a friend.',
+      professional: '2 sentences maximum. Polished but still human. No corporate jargon. No buzzwords.',
     };
 
     const toneGuide = toneInstructions[tone] || toneInstructions.concise;
@@ -26,21 +26,28 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         model: 'llama-3.3-70b-versatile',
-        max_tokens: 200,
+        max_tokens: 120,
         messages: [
           {
             role: 'system',
-            content: `You are a copywriter improving client testimonials. Rewrite the testimonial with this style: ${toneGuide}
+            content: `You are improving a client testimonial. Follow these rules without exception:
 
-Rules:
-- Never invent facts or details not in the original
-- Keep the same sentiment — do not make a negative sound positive  
+STYLE: ${toneGuide}
+
+HARD RULES:
+- Never invent facts, details, results, or names not in the original
+- Never exaggerate sentiment — if the original is lukewarm, keep it lukewarm
+- If the original contains criticism or a complaint, preserve it — do not remove or soften it
 - Write in first person
-- Return only the rewritten testimonial, no quotes, no explanation`
+- Maximum length is 1.5x the original word count — never exceed this
+- No repetition of ideas
+- Return only the rewritten text — no quotes, no explanation, no preamble`
           },
           {
             role: 'user',
-            content: `Rewrite this testimonial: ${content}`
+            content: `Original testimonial: ${content}
+
+Rewrite it now.`
           }
         ]
       }),
@@ -53,12 +60,15 @@ Rules:
       return NextResponse.json({ error: 'Failed to polish' }, { status: 500 });
     }
 
-    const polished = groqData.choices[0].message.content;
+    const polished = groqData.choices[0].message.content.trim();
 
-    await supabase
-      .from('testimonials')
-      .update({ polished_content: polished })
-      .eq('id', testimonialId);
+    // Only save to DB if this is the final chosen version, not during preview
+    if (!previewOnly && testimonialId) {
+      await supabase
+        .from('testimonials')
+        .update({ polished_content: polished })
+        .eq('id', testimonialId);
+    }
 
     return NextResponse.json({ polished, awaitingApproval: false });
 
