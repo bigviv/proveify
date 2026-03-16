@@ -12,7 +12,9 @@ export async function POST(request: Request) {
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],
       customer_email: email,
+      allow_promotion_codes: true,
       metadata: { userId },
+      
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?upgraded=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
     });
