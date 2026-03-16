@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase-browser';
 import { use } from 'react';
 
 type Tone = 'concise' | 'casual' | 'professional';
@@ -13,7 +12,6 @@ interface PolishedVersions {
 
 export default function CollectPage({ params }: { params: Promise<{ userId: string }> }) {
   const { userId } = use(params);
-  const supabase = createClient();
 
   const [step, setStep] = useState<'form' | 'polishing' | 'review' | 'low_star' | 'done'>('form');
   const [form, setForm] = useState({ name: '', email: '', role: '', content: '', rating: 5 });
@@ -71,7 +69,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
 
       setStep('polishing');
 
-      // Polish all three tones in parallel
+      // Polish all three tones in parallel — previewOnly so nothing saves to DB yet
       const [conciseRes, casualRes, professionalRes] = await Promise.all([
         fetch('/api/polish', {
           method: 'POST',
@@ -83,6 +81,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
             clientEmail: form.email.trim(),
             tone: 'concise',
             skipEmail: true,
+            previewOnly: true,
           }),
         }),
         fetch('/api/polish', {
@@ -95,6 +94,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
             clientEmail: form.email.trim(),
             tone: 'casual',
             skipEmail: true,
+            previewOnly: true,
           }),
         }),
         fetch('/api/polish', {
@@ -107,6 +107,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
             clientEmail: form.email.trim(),
             tone: 'professional',
             skipEmail: true,
+            previewOnly: true,
           }),
         }),
       ]);
@@ -135,17 +136,16 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   const handleApprove = async (choice: Tone | 'original') => {
     setSelected(choice);
     const isOriginal = choice === 'original';
-    const polishedContent = isOriginal ? null : versions?.[choice] || null;
 
-    await supabase
-      .from('testimonials')
-      .update({
-        polished_content: polishedContent,
-        approved: true,
-        approval_status: isOriginal ? 'rejected' : 'approved',
-        approved_at: new Date().toISOString(),
-      })
-      .eq('id', savedId);
+    await fetch('/api/testimonials/approve', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        testimonialId: savedId,
+        isOriginal,
+        polishedContent: isOriginal ? null : versions?.[choice as Tone],
+      }),
+    });
 
     setStep('done');
   };
@@ -164,10 +164,11 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="text-center max-w-sm">
         <div className="text-5xl mb-4">🙏</div>
-        <h1 className="text-2xl font-bold mb-3">Thank you for your honesty</h1>
+        <h1 className="text-2xl font-bold mb-3">Thank you for sharing this</h1>
         <p className="text-gray-500 text-sm leading-relaxed">
-          Your feedback has been received. The business owner will be in touch to make things right.
+          Your feedback is private and will only be seen by the business. It genuinely helps them improve.
         </p>
+        <p className="text-gray-400 text-xs mt-4">You can close this tab now.</p>
       </div>
     </div>
   );
@@ -178,7 +179,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
         <div className="text-center mb-8">
           <div className="text-3xl mb-3">✨</div>
           <h1 className="text-2xl font-bold mb-2">Pick your favourite version</h1>
-          <p className="text-gray-500 text-sm">We've created three versions. Tap the one that sounds most like you.</p>
+          <p className="text-gray-500 text-sm">Tap the one that sounds most like you.</p>
         </div>
 
         {/* Original */}
@@ -218,7 +219,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
           ))}
         </div>
 
-        <p className="text-center text-xs text-gray-400 mt-6">
+        <p className="text-center text-xs text-gray-400 mt-6 mb-8">
           All versions are based entirely on what you wrote. Nothing has been invented.
         </p>
       </div>
@@ -230,8 +231,8 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
       <div className="text-center max-w-sm">
         <div className="text-5xl mb-4">🎉</div>
         <h1 className="text-2xl font-bold mb-2">Thank you!</h1>
-        <p className="text-gray-500 text-sm leading-relaxed">
-          Your testimonial has been submitted and approved. It means a lot!
+        <p className="text-gray-500 text-sm leading-relaxed mb-4">
+          Your testimonial has been submitted. It means a lot!
         </p>
         <p className="text-gray-400 text-xs">You can close this tab now.</p>
       </div>
