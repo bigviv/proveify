@@ -56,9 +56,16 @@ export default function Dashboard() {
   };
 
   const handleApprove = async (id: string, approved: boolean) => {
-    await supabase.from('testimonials').update({ approved: !approved }).eq('id', id);
-    setTestimonials(prev => prev.map(t => t.id === id ? { ...t, approved: !approved } : t));
-  };
+  const newApproved = !approved;
+  const newStatus = newApproved ? 'original_approved' : 'pending';
+  await supabase
+    .from('testimonials')
+    .update({ approved: newApproved, approval_status: newStatus })
+    .eq('id', id);
+  setTestimonials(prev =>
+    prev.map(t => t.id === id ? { ...t, approved: newApproved, approval_status: newStatus } : t)
+  );
+};
 
   const handleDelete = async (id: string) => {
     await supabase.from('testimonials').delete().eq('id', id);
