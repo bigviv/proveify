@@ -25,7 +25,7 @@ export default function WidgetPage({ params }: { params: Promise<{ userId: strin
         .select('*')
         .eq('user_id', userId)
         .eq('approved', true)
-        .in('approval_status', ['approved', 'rejected'])
+        .in('approval_status', ['approved', 'rejected', 'ai_approved', 'original_approved'])
         .order('approved_at', { ascending: false });
       setTestimonials(data || []);
     };
