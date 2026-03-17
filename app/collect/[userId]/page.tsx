@@ -14,7 +14,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   const { userId } = use(params);
 
   const [step, setStep] = useState<'form' | 'polishing' | 'review' | 'low_star' | 'done'>('form');
-  const [form, setForm] = useState({ name: '', email: '', role: '', content: '', rating: 5 });
+  const [form, setForm] = useState({ name: '', email: '', role: '', content: '', rating: 5, website: '' });
   const [versions, setVersions] = useState<PolishedVersions | null>(null);
   const [savedId, setSavedId] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -24,7 +24,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   const toneLabels: Record<Tone, { label: string; desc: string; emoji: string }> = {
     concise: { label: 'Concise', desc: 'Short & punchy', emoji: '⚡' },
     casual: { label: 'Casual', desc: 'Warm & natural', emoji: '😊' },
-    professional: { label: 'Professional', desc: 'Polished & formal', emoji: '💼' },
+    professional: { label: 'Professional', desc: 'Polished & al', emoji: '💼' },
   };
 
   const handleSubmit = async () => {
@@ -46,6 +46,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
           role: form.role,
           content: form.content,
           rating: form.rating,
+          website: form.website,
         }),
       });
 
@@ -307,6 +308,17 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
               ))}
             </div>
           </div>
+
+          {/* Honeypot — hidden from real users, bots will fill this */}
+          <input
+            type="text"
+            value={form.website}
+            onChange={e => setForm({ ...form, website: e.target.value })}
+            style={{ display: 'none' }}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+          />
 
           {error && (
             <p className="text-sm text-red-500 bg-red-50 px-3 py-2 rounded-lg">{error}</p>
