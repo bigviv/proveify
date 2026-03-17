@@ -30,7 +30,7 @@ export async function GET(request: Request) {
   .from('testimonials')
   .update({ 
     approved: true, 
-    approval_status: 'approved',
+    approval_status: 'ai_approved',
     approved_at: new Date().toISOString()
   })
   .eq('approval_token', token);
@@ -51,13 +51,13 @@ export async function GET(request: Request) {
 
   if (action === 'reject') {
     await supabase
-      .from('testimonials')
-      .update({ 
-        polished_content: null, 
-        approval_status: 'rejected',
-        approved: true
-      })
-      .eq('approval_token', token);
+  .from('testimonials')
+  .update({ 
+    polished_content: null, 
+    approval_status: 'original_approved',
+    approved: true
+  })
+  .eq('approval_token', token);
 
     return new Response(`
       <html>
