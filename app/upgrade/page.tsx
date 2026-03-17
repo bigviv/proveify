@@ -28,7 +28,7 @@ export default function UpgradePage() {
       const res = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, userId: user.id, email: user.email }),
+        body: JSON.stringify({ priceId, userId: user.id, email: user.email, plan }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
