@@ -28,7 +28,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
     .select('*')
     .eq('user_id', profile.id)
     .eq('approved', true)
-    .in('approval_status', ['approved', 'rejected'])
+    .in('approval_status', ['approved', 'rejected', 'ai_approved', 'original_approved'])
     .order('approved_at', { ascending: false });
 
   const list = testimonials || [];
