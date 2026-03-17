@@ -19,23 +19,19 @@ export default function UpgradePage() {
   }, []);
 
   const handleUpgrade = async (plan: 'pro' | 'agency') => {
-    setLoading(plan);
-    const priceId = plan === 'pro'
-      ? process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID
-      : process.env.NEXT_PUBLIC_STRIPE_AGENCY_PRICE_ID;
-
-    try {
-      const res = await fetch('/api/stripe/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, userId: user.id, email: user.email, plan }),
-      });
-      const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch {
-      setLoading(null);
-    }
-  };
+  setLoading(plan);
+  try {
+    const res = await fetch('/api/stripe/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan }),
+    });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url;
+  } catch {
+    setLoading(null);
+  }
+};
 
   return (
     <main className="min-h-screen bg-gray-50">
