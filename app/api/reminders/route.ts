@@ -68,7 +68,7 @@ if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
           <a href="${collectUrl}" style="background: #6d28d9; color: white; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 15px; display: inline-block; margin-bottom: 24px;">
             Leave feedback →
           </a>
-          <p style="color: #aaa; font-size: 12px;">Powered by Proveify · proveify.vercel.app</p>
+          <p style="color: #aaa; font-size: 12px;">Powered by Proveify · proveify.app</p>
         </div>
       `,
     });
