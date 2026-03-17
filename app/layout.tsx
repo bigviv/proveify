@@ -16,16 +16,24 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Proveify | AI-powered social proof for freelancers & agencies",
   description: "Collect testimonials from clients automatically, polish them with AI, and display them beautifully on your website. Set up in 5 minutes.",
-icons: {
-  icon: '/favicon.png',
-},
+  icons: {
+    icon: '/favicon.png',
+  },
   openGraph: {
-  images: ['/og-image.png'],
-},
-twitter: {
-  card: 'summary_large_image',
-  images: ['/og-image.png'],
-},
+    title: 'Proveify | AI-powered social proof for freelancers & agencies',
+    description: 'Collect testimonials from clients automatically, polish them with AI, and embed them anywhere. Set up in 5 minutes.',
+    url: 'https://proveify.app',
+    siteName: 'Proveify',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Proveify' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@proveify',
+    title: 'Proveify | AI-powered social proof for freelancers & agencies',
+    description: 'Collect testimonials from clients automatically, polish them with AI, and embed them anywhere.',
+    images: ['/og-image.png'],
+  },
 };
 
 export default function RootLayout({
