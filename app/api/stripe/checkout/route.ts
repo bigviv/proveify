@@ -5,7 +5,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request) {
   try {
-    const { priceId, userId, email } = await request.json();
+    const { priceId, userId, email, plan } = await request.json();
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
       line_items: [{ price: priceId, quantity: 1 }],
       customer_email: email,
       allow_promotion_codes: true,
-      metadata: { userId },
+      metadata: { userId, plan: plan || 'pro' },
       
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?upgraded=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
