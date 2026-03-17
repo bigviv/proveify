@@ -53,7 +53,7 @@ if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     const collectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/collect/${t.user_id}`;
 
     await resend.emails.send({
-      from: 'Proveify <onboarding@resend.dev>',
+      from: 'Proveify <hello@proveify.app>',
       to: [t.client_email],
       subject: `Quick reminder — ${freelancerName} would love your feedback`,
       html: `
