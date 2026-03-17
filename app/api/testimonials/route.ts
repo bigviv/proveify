@@ -9,7 +9,12 @@ const supabase = createClient(
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { userId, name, email, role, content, rating } = body;
+    const { userId, name, email, role, content, rating, website, phone_number } = body;
+
+    // Honeypot spam protection — bots fill hidden fields, humans don't
+    if (website || phone_number) {
+      return NextResponse.json({ ok: true });
+    }
 
     if (!userId || !name?.trim() || !content?.trim()) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -55,4 +60,4 @@ export async function POST(request: Request) {
     console.error('POST /api/testimonials failed:', error);
     return NextResponse.json({ error: 'Unexpected server error' }, { status: 500 });
   }
-} 
+}
