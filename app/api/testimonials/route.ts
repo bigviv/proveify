@@ -1,17 +1,22 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import crypto from 'crypto';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
+function generateApprovalToken() {
+  return crypto.randomBytes(32).toString('hex');
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { userId, name, email, role, content, rating, website, phone_number } = body;
 
-    // Honeypot spam protection — bots fill hidden fields, humans don't
+    // Honeypot spam protection
     if (website || phone_number) {
       return NextResponse.json({ ok: true });
     }
@@ -35,6 +40,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid collection link' }, { status: 404 });
     }
 
+    // Generate token for all testimonials — only used for high-rating flow
+    const approvalToken = generateApprovalToken();
+    const approvalTokenExpiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // 7 days
+
     const { data, error } = await supabase
       .from('testimonials')
       .insert({
@@ -46,6 +55,8 @@ export async function POST(request: Request) {
         rating: cleanRating,
         approved: false,
         approval_status: cleanRating <= 3 ? 'low_rating' : 'pending',
+        approval_token: approvalToken,
+        approval_token_expires_at: approvalTokenExpiresAt.toISOString(),
       })
       .select()
       .single();
