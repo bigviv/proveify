@@ -94,7 +94,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
         {/* Proveify footer */}
         <div className="text-center mt-12">
-          <a href="https://proveify.vercel.app" target="_blank" rel="noopener noreferrer"
+          <a href="https://proveify.app" target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-xs text-gray-400 hover:text-indigo-600 transition-colors">
             <span>Powered by</span>
             <span className="font-bold text-gray-600">Proveify</span>
