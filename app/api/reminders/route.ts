@@ -12,7 +12,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function GET(request: Request) {
   // Protect with a secret so only Vercel cron can call this
   const { searchParams } = new URL(request.url);
-  if (searchParams.get('secret') !== process.env.CRON_SECRET) {
+  const authHeader = request.headers.get('authorization');
+if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
