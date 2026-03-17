@@ -17,6 +17,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   const [form, setForm] = useState({ name: '', email: '', role: '', content: '', rating: 5, website: '' });
   const [versions, setVersions] = useState<PolishedVersions | null>(null);
   const [savedId, setSavedId] = useState('');
+  const [savedToken, setSavedToken] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [selected, setSelected] = useState<Tone | 'original' | null>(null);
@@ -61,6 +62,7 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
 
       const data = payload.testimonial;
       setSavedId(data.id);
+      setSavedToken(data.approval_token);
 
       if (data.approval_status === 'low_rating') {
         setStep('low_star');
@@ -135,21 +137,22 @@ export default function CollectPage({ params }: { params: Promise<{ userId: stri
   };
 
   const handleApprove = async (choice: Tone | 'original') => {
-    setSelected(choice);
-    const isOriginal = choice === 'original';
+  setSelected(choice);
+  const isOriginal = choice === 'original';
 
-    await fetch('/api/testimonials/approve', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        testimonialId: savedId,
-        isOriginal,
-        polishedContent: isOriginal ? null : versions?.[choice as Tone],
-      }),
-    });
+  await fetch('/api/testimonials/approve', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      testimonialId: savedId,
+      approvalToken: savedToken,
+      isOriginal,
+      polishedContent: isOriginal ? null : versions?.[choice as Tone],
+    }),
+  });
 
-    setStep('done');
-  };
+  setStep('done');
+};
 
   if (step === 'polishing') return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
