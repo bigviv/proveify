@@ -22,10 +22,24 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'How to Ask a Client for a Testimonial (Without Being Awkward)',
+  description: 'A practical guide for freelancers on how to ask clients for testimonials.',
+  author: { '@type': 'Person', name: 'Vivek Chohan' },
+  publisher: { '@type': 'Organization', name: 'Proveify', url: 'https://proveify.app' },
+  datePublished: '2026-03-21',
+  url: 'https://proveify.app/blog/how-to-ask-client-for-testimonial',
+};
+
 export default function BlogPost1() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
-
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+/>
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-100 max-w-6xl mx-auto">
         <Link href="/" className="text-xl font-bold tracking-tight">Proveify</Link>
