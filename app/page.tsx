@@ -19,7 +19,6 @@ export default function Home() {
   }, []);
 
   const handleWaitlist = async (e: React.FormEvent) => {
-  const handleWaitlist = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
