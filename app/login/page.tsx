@@ -12,7 +12,15 @@ export default function LoginPage() {
   const [message, setMessage] = useState('');
   const router = useRouter();
   const supabase = createClient();
-
+  const handleGoogleSignIn = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'https://proveify.app/dashboard',
+    },
+  });
+  if (error) { setStatus('error'); setMessage(error.message); }
+};
   const handleSubmit = async () => {
     setStatus('loading');
     setMessage('');
