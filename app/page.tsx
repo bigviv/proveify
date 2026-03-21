@@ -36,6 +36,19 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
+      <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{ __html: JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Proveify',
+    applicationCategory: 'BusinessApplication',
+    description: 'AI-powered testimonial collection software for freelancers',
+    url: 'https://proveify.app',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    operatingSystem: 'Web',
+  })}}
+/>
 
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b border-gray-100 max-w-6xl mx-auto">
