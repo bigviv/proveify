@@ -33,8 +33,8 @@ const posts = [
     title: 'Testimonial Templates for Freelancers — Copy and Paste',
     excerpt: '10 ready-to-use testimonial templates across different freelance industries — plus how to get testimonials that are even better than any template.',
     readTime: '4 min read',
-    date: 'Coming soon',
-    published: false,
+    date: 'March 2026',
+    published: true,
   },
   {
     slug: 'what-makes-a-good-testimonial',
