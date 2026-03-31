@@ -27,7 +27,7 @@ const jsonLd = {
   '@type': 'Article',
   headline: 'How to Ask a Client for a Testimonial (Without Being Awkward)',
   description: 'A practical guide for freelancers on how to ask clients for testimonials.',
-  author: { '@type': 'Person', name: 'Vivek Chohan' },
+  author: { '@type': 'Person', name: 'Proveify Team' },
   publisher: { '@type': 'Organization', name: 'Proveify', url: 'https://proveify.app' },
   datePublished: '2026-03-21',
   url: 'https://proveify.app/blog/how-to-ask-client-for-testimonial',
