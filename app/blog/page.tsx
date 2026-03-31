@@ -32,17 +32,17 @@ const posts = [
     slug: 'testimonial-templates-for-freelancers',
     title: 'Testimonial Templates for Freelancers — Copy and Paste',
     excerpt: '10 ready-to-use testimonial templates across different freelance industries — plus how to get testimonials that are even better than any template.',
-    readTime: '4 min read',
+    readTime: '6 min read',
     date: 'March 2026',
     published: true,
   },
   {
     slug: 'what-makes-a-good-testimonial',
     title: 'What Makes a Good Testimonial? (With Examples)',
-    excerpt: 'Most testimonials freelancers receive are kind but useless. Here\'s exactly what separates a testimonial that wins work from one that gets ignored.',
-    readTime: '5 min read',
-    date: 'Coming soon',
-    published: false,
+    excerpt: 'Most testimonials freelancers receive are kind but completely useless. Here\'s exactly what separates one that wins you work from one that gets ignored.',
+    readTime: '6 min read',
+    date: 'March 2026',
+    published: true,
   },
   {
     slug: 'how-to-embed-testimonials-on-your-website',
@@ -154,7 +154,7 @@ export default function BlogIndex() {
             href="/login"
             className="inline-block bg-white text-indigo-600 font-bold px-8 py-3 rounded-xl text-sm hover:bg-indigo-50 transition-colors"
           >
-            Start collecting for free →
+            Create your first usable testimonial →
           </Link>
         </div>
       </section>
