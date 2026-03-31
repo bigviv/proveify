@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'What Makes a Good Testimonial? (With Examples) | Proveify',
-  description: 'Most testimonials freelancers collect are kind but useless. Here's exactly what separates a testimonial that wins work from one that gets ignored — with real examples.',
+  description: "Most testimonials freelancers collect are kind but useless. Here's exactly what separates a testimonial that wins work from one that gets ignored — with real examples.",
   openGraph: {
     title: 'What Makes a Good Testimonial? (With Examples)',
-    description: 'Most testimonials freelancers collect are kind but useless. Here's exactly what separates a testimonial that wins work from one that gets ignored.',
+    description: "Most testimonials freelancers collect are kind but useless. Here's exactly what separates a testimonial that wins work from one that gets ignored.",
     url: 'https://proveify.app/blog/what-makes-a-good-testimonial',
     type: 'article',
     images: [{ url: '/og-image.png' }],
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@proveify',
     title: 'What Makes a Good Testimonial? (With Examples)',
-    description: 'Most testimonials freelancers collect are kind but useless. Here's what actually works.',
+    description: "Most testimonials freelancers collect are kind but useless. Here's what actually works.",
   },
   alternates: {
     canonical: 'https://proveify.app/blog/what-makes-a-good-testimonial',
@@ -26,7 +26,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: 'What Makes a Good Testimonial? (With Examples)',
-  description: 'Most testimonials freelancers collect are kind but useless. Here's exactly what separates a testimonial that wins work from one that gets ignored.',
+  description: "Most testimonials freelancers collect are kind but useless. Here's exactly what separates a testimonial that wins work from one that gets ignored.",
   author: { '@type': 'Organization', name: 'Proveify' },
   publisher: { '@type': 'Organization', name: 'Proveify', url: 'https://proveify.app' },
   datePublished: '2026-03-28',
