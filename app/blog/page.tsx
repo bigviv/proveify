@@ -23,7 +23,7 @@ const posts = [
   {
     slug: 'how-to-ask-client-for-testimonial',
     title: 'How to Ask a Client for a Testimonial (Without Being Awkward)',
-    excerpt: 'You did great work. The client was happy. But somehow asking for a testimonial still feels uncomfortable. Here\'s how to make it natural — and how to actually get one.',
+    excerpt: "You did great work. The client was happy. But somehow asking for a testimonial still feels uncomfortable. Here's how to make it natural — and how to actually get one.",
     readTime: '5 min read',
     date: 'March 2026',
     published: true,
@@ -39,7 +39,7 @@ const posts = [
   {
     slug: 'what-makes-a-good-testimonial',
     title: 'What Makes a Good Testimonial? (With Examples)',
-    excerpt: 'Most testimonials freelancers receive are kind but completely useless. Here\'s exactly what separates one that wins you work from one that gets ignored.',
+    excerpt: "Most testimonials freelancers receive are kind but completely useless. Here's exactly what separates one that wins you work from one that gets ignored.",
     readTime: '6 min read',
     date: 'March 2026',
     published: true,
@@ -48,22 +48,22 @@ const posts = [
     slug: 'how-to-embed-testimonials-on-your-website',
     title: 'How to Embed Testimonials on Your Website',
     excerpt: 'A practical guide to adding testimonials to Webflow, WordPress, Framer, Carrd, and any other website — including the one-line option.',
-    readTime: '4 min read',
-    date: 'Coming soon',
-    published: false,
+    readTime: '5 min read',
+    date: 'April 2026',
+    published: true,
   },
   {
     slug: 'social-proof-for-freelancers',
     title: 'Social Proof for Freelancers: The Complete Guide',
-    excerpt: 'Why social proof matters more than your portfolio, how to build it from scratch, and how to use it to win clients you couldn\'t before.',
+    excerpt: "Why social proof matters more than your portfolio, how to build it from scratch, and how to use it to win clients you couldn't before.",
     readTime: '8 min read',
-    date: 'Coming soon',
-    published: false,
+    date: 'April 2026',
+    published: true,
   },
   {
     slug: 'how-to-collect-client-feedback-automatically',
     title: 'How to Collect Client Feedback Automatically',
-    excerpt: 'Stop chasing clients for reviews. Here\'s how to build a system that collects feedback without you having to remember to ask.',
+    excerpt: "Stop chasing clients for reviews. Here's how to build a system that collects feedback without you having to remember to ask.",
     readTime: '5 min read',
     date: 'Coming soon',
     published: false,
@@ -129,21 +129,20 @@ export default function BlogIndex() {
       </section>
 
       {/* Coming soon */}
-      <section className="max-w-4xl mx-auto px-6 pb-20">
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-5 mt-8">Coming soon</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {upcoming.map((post) => (
-            <div
-              key={post.slug}
-              className="bg-gray-50 border border-gray-100 rounded-2xl p-6 opacity-70"
-            >
-              <p className="text-xs text-gray-400 mb-2">{post.readTime}</p>
-              <h3 className="text-base font-bold text-gray-700 mb-2 leading-snug">{post.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed">{post.excerpt}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      {upcoming.length > 0 && (
+        <section className="max-w-4xl mx-auto px-6 pb-20">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-5 mt-8">Coming soon</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {upcoming.map((post) => (
+              <div key={post.slug} className="bg-gray-50 border border-gray-100 rounded-2xl p-6 opacity-70">
+                <p className="text-xs text-gray-400 mb-2">{post.readTime}</p>
+                <h3 className="text-base font-bold text-gray-700 mb-2 leading-snug">{post.title}</h3>
+                <p className="text-sm text-gray-400 leading-relaxed">{post.excerpt}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* CTA */}
       <section className="bg-indigo-600 py-16">
