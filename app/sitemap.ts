@@ -33,6 +33,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: 'https://proveify.app/blog/how-to-embed-testimonials-on-your-website',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://proveify.app/blog/social-proof-for-freelancers',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: 'https://proveify.app/example',
       lastModified: new Date(),
       changeFrequency: 'monthly',
